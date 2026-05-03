@@ -33,7 +33,7 @@ Development of the specification is under the umbrella of the Linux Foundation.
 | Topic | Link | Description |
 |---|---|---|
 | Version source | <a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0">Open Data Product Graphs 1.0 on GitHub</a> | Official source repository for the ODPG 1.0 specification |
-Open-Data-Product-Initiative/v4.1/issues) | Submit issues or suggestions to the specification maintainers |
+Open-Data-Product-Initiative/odpg-1.0/issues) | Submit issues or suggestions to the specification maintainers |
 
 ## Introduction
 
