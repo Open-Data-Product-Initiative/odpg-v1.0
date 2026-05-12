@@ -3,6 +3,9 @@
 The edges section defines the relationships between nodes, where each edge establishes a directional connection that represents strategic alignment, operational dependency, semantic association, governance propagation, usage patterns, contribution paths, ownership relationships, or interoperability mappings between entities.
 
 An edge always connects a source node to a target node using the from and to properties.
+
+> Example of edges object usage:
+
 ```yml
 edges:
   - from: UC-AVIATION-001
@@ -20,11 +23,13 @@ edges:
     type: CONTRIBUTES_TO
     confidence: medium
 ```
+
 Through edges, ODPG enables organizations to construct connected value graphs capable of supporting strategic analysis, governance reasoning, graph traversal, semantic interoperability, dependency analysis, and AI-driven contextual reasoning.
 
 ## Edge Properties
 
 Each edge within an ODPG graph contains properties that describe the relationship connecting two nodes.
+
 | Property   | Description                          |
 | ---------- | ------------------------------------ |
 | from       | Source node identifier               |
@@ -43,6 +48,7 @@ The **confidence** property defines the certainty level associated with the rela
 ## Supported Edge Types
 
 ODPG supports multiple relationship types capable of representing operational, strategic, governance, semantic, and AI-related connections between graph entities.
+
 | Edge Type      | Description                                                   |
 | -------------- | ------------------------------------------------------------- |
 | USES           | A node uses another node as part of execution or operation    |

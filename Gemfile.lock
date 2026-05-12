@@ -140,7 +140,7 @@ DEPENDENCIES
   webrick
 
 RUBY VERSION
-   ruby 2.7.2p137
+   ruby 4.0.3p0
 
 BUNDLED WITH
-   2.2.20
+   4.0.11
