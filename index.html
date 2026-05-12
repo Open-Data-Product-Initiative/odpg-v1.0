@@ -295,9 +295,9 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-199a5bf7.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-b12a2749.js"></script>
+    <link href="stylesheets/screen-15a1ebc0.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-d6ee5789.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-f2dcce0e.js"></script>
 
     <script>
       $(function() { setupCodeCopy(); });
@@ -430,6 +430,8 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 </tr>
 </tbody></table>
 <h2 id='introduction'>Introduction</h2>
+<p><img src="images/odpg-relationships-e386ad1d.png" alt="Relationships for data product management with ODPG connecting ODPS and ODPC" width="700px"></p>
+
 <p>Modern organizations increasingly operate across highly distributed ecosystems composed of data products, APIs, workflows, governance controls, AI systems, analytical capabilities, business domains, and operational processes that collectively contribute to strategic business execution. Despite significant investments in data platforms and governance programs, many organizations still struggle to understand how technical assets connect to business value because metadata, governance, strategy, and operational context are often managed independently from one another.</p>
 
 <p>Traditional metadata catalogs primarily focus on technical discovery, indexing, and lineage management, which makes them valuable for inventory and governance use cases but insufficient for understanding the broader strategic relationships that exist between business objectives, operational capabilities, AI systems, data products, and measurable outcomes.</p>
@@ -666,34 +668,54 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 <h1 id='edges'>Edges</h1>
 <p>The edges section defines the relationships between nodes, where each edge establishes a directional connection that represents strategic alignment, operational dependency, semantic association, governance propagation, usage patterns, contribution paths, ownership relationships, or interoperability mappings between entities.</p>
 
-<p>An edge always connects a source node to a target node using the from and to properties.
-```yml
-edges:
-  - from: UC-AVIATION-001
-    to: DP-AVIATION-001
-    type: USES
-    confidence: high</p>
+<p>An edge always connects a source node to a target node using the from and to properties.</p>
 
-<ul>
-<li><p>from: UC-AVIATION-001
-to: OBJ-AVIATION-001
-type: SUPPORTS
-confidence: high</p></li>
-<li><p>from: DP-AVIATION-001
-to: OBJ-AVIATION-001
-type: CONTRIBUTES_TO
-confidence: medium
-```
-Through edges, ODPG enables organizations to construct connected value graphs capable of supporting strategic analysis, governance reasoning, graph traversal, semantic interoperability, dependency analysis, and AI-driven contextual reasoning.</p></li>
-</ul>
+<blockquote>
+<p>Example of edges object usage:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">edges</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">from</span><span class="pi">:</span> <span class="s">UC-AVIATION-001</span>
+    <span class="na">to</span><span class="pi">:</span> <span class="s">DP-AVIATION-001</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">USES</span>
+    <span class="na">confidence</span><span class="pi">:</span> <span class="s">high</span>
+
+  <span class="pi">-</span> <span class="na">from</span><span class="pi">:</span> <span class="s">UC-AVIATION-001</span>
+    <span class="na">to</span><span class="pi">:</span> <span class="s">OBJ-AVIATION-001</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">SUPPORTS</span>
+    <span class="na">confidence</span><span class="pi">:</span> <span class="s">high</span>
+
+  <span class="pi">-</span> <span class="na">from</span><span class="pi">:</span> <span class="s">DP-AVIATION-001</span>
+    <span class="na">to</span><span class="pi">:</span> <span class="s">OBJ-AVIATION-001</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">CONTRIBUTES_TO</span>
+    <span class="na">confidence</span><span class="pi">:</span> <span class="s">medium</span>
+</code></pre></div>
+<p>Through edges, ODPG enables organizations to construct connected value graphs capable of supporting strategic analysis, governance reasoning, graph traversal, semantic interoperability, dependency analysis, and AI-driven contextual reasoning.</p>
 <h2 id='edge-properties'>Edge Properties</h2>
-<p>Each edge within an ODPG graph contains properties that describe the relationship connecting two nodes.
-| Property   | Description                          |
-| ---------- | ------------------------------------ |
-| from       | Source node identifier               |
-| to         | Target node identifier               |
-| type       | Relationship type                    |
-| confidence | Confidence level of the relationship |</p>
+<p>Each edge within an ODPG graph contains properties that describe the relationship connecting two nodes.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>from</td>
+<td>Source node identifier</td>
+</tr>
+<tr>
+<td>to</td>
+<td>Target node identifier</td>
+</tr>
+<tr>
+<td>type</td>
+<td>Relationship type</td>
+</tr>
+<tr>
+<td>confidence</td>
+<td>Confidence level of the relationship</td>
+</tr>
+</tbody></table>
 
 <p>The <strong>from</strong> property identifies the source node from which the relationship originates.</p>
 
@@ -703,26 +725,83 @@ Through edges, ODPG enables organizations to construct connected value graphs ca
 
 <p>The <strong>confidence</strong> property defines the certainty level associated with the relationship, thereby enabling organizations and AI systems to distinguish between explicitly declared relationships and inferred or partially validated relationships.</p>
 <h2 id='supported-edge-types'>Supported Edge Types</h2>
-<p>ODPG supports multiple relationship types capable of representing operational, strategic, governance, semantic, and AI-related connections between graph entities.
-| Edge Type      | Description                                                   |
-| -------------- | ------------------------------------------------------------- |
-| USES           | A node uses another node as part of execution or operation    |
-| SUPPORTS       | A node supports a business objective                          |
-| CONTRIBUTES_TO | A node contributes toward an outcome or objective             |
-| MEASURES       | A KPI measures an objective or outcome                        |
-| TRACKS         | A node tracks or provides KPI-related information             |
-| DEPENDS_ON     | A node depends on another node                                |
-| PRODUCES       | A node produces data, outputs, or services                    |
-| CONSUMES       | A node consumes data, APIs, or outputs                        |
-| GOVERNED_BY    | A node is governed by a policy or control                     |
-| OWNED_BY       | A node is owned by a person, team, or domain                  |
-| ALIGNS_WITH    | A node aligns strategically or semantically with another node |
-| RELATED_TO     | A generic semantic relationship                               |
-| IMPACTS        | A node impacts another node                                   |
-| DERIVED_FROM   | A node originates from another node                           |
-| EXPOSES        | A node exposes an API or interface                            |
-| MONITORS       | A node monitors another node                                  |
-| IDENTIFIES     | A node identifies an opportunity or condition                 |</p>
+<p>ODPG supports multiple relationship types capable of representing operational, strategic, governance, semantic, and AI-related connections between graph entities.</p>
+
+<table><thead>
+<tr>
+<th>Edge Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>USES</td>
+<td>A node uses another node as part of execution or operation</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>A node supports a business objective</td>
+</tr>
+<tr>
+<td>CONTRIBUTES_TO</td>
+<td>A node contributes toward an outcome or objective</td>
+</tr>
+<tr>
+<td>MEASURES</td>
+<td>A KPI measures an objective or outcome</td>
+</tr>
+<tr>
+<td>TRACKS</td>
+<td>A node tracks or provides KPI-related information</td>
+</tr>
+<tr>
+<td>DEPENDS_ON</td>
+<td>A node depends on another node</td>
+</tr>
+<tr>
+<td>PRODUCES</td>
+<td>A node produces data, outputs, or services</td>
+</tr>
+<tr>
+<td>CONSUMES</td>
+<td>A node consumes data, APIs, or outputs</td>
+</tr>
+<tr>
+<td>GOVERNED_BY</td>
+<td>A node is governed by a policy or control</td>
+</tr>
+<tr>
+<td>OWNED_BY</td>
+<td>A node is owned by a person, team, or domain</td>
+</tr>
+<tr>
+<td>ALIGNS_WITH</td>
+<td>A node aligns strategically or semantically with another node</td>
+</tr>
+<tr>
+<td>RELATED_TO</td>
+<td>A generic semantic relationship</td>
+</tr>
+<tr>
+<td>IMPACTS</td>
+<td>A node impacts another node</td>
+</tr>
+<tr>
+<td>DERIVED_FROM</td>
+<td>A node originates from another node</td>
+</tr>
+<tr>
+<td>EXPOSES</td>
+<td>A node exposes an API or interface</td>
+</tr>
+<tr>
+<td>MONITORS</td>
+<td>A node monitors another node</td>
+</tr>
+<tr>
+<td>IDENTIFIES</td>
+<td>A node identifies an opportunity or condition</td>
+</tr>
+</tbody></table>
 
 <p>The relationship model is designed to remain extensible so that organizations can introduce domain-specific relationship types while maintaining compatibility with the core ODPG graph structure.</p>
 <h1 id='confidence'>Confidence</h1>
@@ -745,7 +824,7 @@ Through edges, ODPG enables organizations to construct connected value graphs ca
 <blockquote>
 <p>Example of the catalog object usage:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight yaml"><code><span class="na">schema</span><span class="pi">:</span> <span class="s">https://opendataproducts.org/graphs/v1/schema/graph.yaml</span>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">schema</span><span class="pi">:</span> <span class="s">https://opendataproducts.org/odpg-v1.0/schema/graph.yaml</span>
 <span class="na">version</span><span class="pi">:</span> <span class="m">1.0</span>
 <span class="na">kind</span><span class="pi">:</span> <span class="s">DataProductGraph</span>
 <span class="na">id</span><span class="pi">:</span> <span class="s">GRAPH-AVIATION-001</span>
