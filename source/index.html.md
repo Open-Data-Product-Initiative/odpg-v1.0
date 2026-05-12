@@ -11,6 +11,8 @@ toc_footers:
   - <br/>Linux Foundation
 
 includes:
+  - structure
+  - nodes
   - contibutors
 
 search: true
@@ -62,3 +64,39 @@ Through ODPG, organizations can represent questions such as:
 - Which strategic opportunities emerge from multiple related use cases?
 
 By enabling organizations to describe these relationships using a standardized graph structure, ODPG provides the foundation for graph-native enterprise intelligence ecosystems.
+
+
+## Relationship to the Open Data Products Specification Family
+
+The Open Data Products specification family consists of interoperable standards that collectively support the lifecycle, governance, semantics, discovery, interoperability, and intelligence of data ecosystems, where each specification focuses on a specific responsibility while remaining interoperable with the others.
+
+| Specification	| Role |
+|---|---| 
+| ODPS | Defines the structure and specification of a data product |
+| ODPV | Defines shared vocabulary and semantic meaning |
+| ODPC | Defines catalog interoperability and discovery structures |
+| ODPG | Defines graph relationships between data products, use cases, objectives, policies, and related entities |
+
+Within this ecosystem, ODPS defines the product structure itself, ODPV defines semantic consistency and shared meaning, ODPC defines discovery and catalog interoperability, while ODPG defines the graph relationships that connect those specifications into an interconnected enterprise ecosystem capable of supporting strategic intelligence and machine reasoning.
+
+As a result, ODPG should be understood as the relationship and intelligence layer of the Open Data Products ecosystem because it provides the contextual structure necessary for understanding how different enterprise assets connect to each other operationally, strategically, semantically, and organizationally.
+
+
+## Purpose
+
+The purpose of ODPG is to provide organizations with a standardized machine-readable graph specification that enables them to model relationships between data products, business objectives, operational use cases, governance structures, APIs, workflows, AI systems, and strategic capabilities in a consistent and interoperable manner.
+
+Through this graph model, organizations can establish visibility into how data products contribute to business outcomes, how governance policies propagate across interconnected assets, how AI agents interact with enterprise systems, how KPIs align with strategic goals, and how operational dependencies affect downstream capabilities.
+
+ODPG therefore enables organizations to:
+
+* connect use cases to data products
+* connect data products to business objectives
+* represent strategic contribution paths
+* model governance relationships
+* support impact analysis
+* identify strategic gaps and overlaps
+* support semantic traversal
+* enable AI reasoning across enterprise ecosystems
+* support graph-native interoperability
+* provide reusable relationship intelligence structures
