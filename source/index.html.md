@@ -13,6 +13,9 @@ toc_footers:
 includes:
   - structure
   - nodes
+  - edges
+  - confidence
+  - catalog
   - contributors
 
 search: true
@@ -65,7 +68,6 @@ Through ODPG, organizations can represent questions such as:
 
 By enabling organizations to describe these relationships using a standardized graph structure, ODPG provides the foundation for graph-native enterprise intelligence ecosystems.
 
-
 ## Relationship to the Open Data Products Specification Family
 
 The Open Data Products specification family consists of interoperable standards that collectively support the lifecycle, governance, semantics, discovery, interoperability, and intelligence of data ecosystems, where each specification focuses on a specific responsibility while remaining interoperable with the others.
@@ -80,7 +82,6 @@ The Open Data Products specification family consists of interoperable standards 
 Within this ecosystem, ODPS defines the product structure itself, ODPV defines semantic consistency and shared meaning, ODPC defines discovery and catalog interoperability, while ODPG defines the graph relationships that connect those specifications into an interconnected enterprise ecosystem capable of supporting strategic intelligence and machine reasoning.
 
 As a result, ODPG should be understood as the relationship and intelligence layer of the Open Data Products ecosystem because it provides the contextual structure necessary for understanding how different enterprise assets connect to each other operationally, strategically, semantically, and organizationally.
-
 
 ## Purpose
 
