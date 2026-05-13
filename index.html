@@ -453,6 +453,8 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 
 <p><strong>Open Data Product Graphs ODPG-v1.0</strong> addresses this challenge by introducing a machine-readable graph specification that enables organizations to describe and manage the relationships between interconnected entities across the enterprise ecosystem, thereby transforming isolated specifications into connected intelligence structures capable of supporting governance reasoning, strategic alignment, semantic interoperability, AI traversal, impact analysis, and reusable data ecosystems.</p>
 
+<p><img src="images/odpg-15519564.jpeg" alt="Open Data Product Graphs overview diagram" /></p>
+
 <p>Through ODPG, organizations can represent questions such as:</p>
 
 <ul>
@@ -576,18 +578,22 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 <p>A node may represent an internal resource defined directly within the organization or an external specification referenced through another machine-readable file.</p>
 
 <p>Instead of embedding full resource definitions directly into the graph, ODPG encourages interoperability through references using the ref property, thereby enabling organizations to connect graph structures with ODPS documents, ODPV vocabularies, governance artifacts, APIs, workflows, use cases, or external specifications.</p>
+
+<blockquote>
+<p>Example of nodes object format:</p>
+</blockquote>
 <div class="highlight"><pre class="highlight yaml"><code><span class="na">nodes</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">UC-AVIATION-001</span>
     <span class="na">type</span><span class="pi">:</span> <span class="s">UseCase</span>
-    <span class="na">ref</span><span class="pi">:</span> <span class="s">../usecases/predictive-maintenance-aircraft.yaml</span>
+    <span class="s">$ref</span><span class="pi">:</span> <span class="s">../usecases/predictive-maintenance-aircraft.yaml</span>
 
   <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">OBJ-AVIATION-001</span>
     <span class="na">type</span><span class="pi">:</span> <span class="s">BusinessObjective</span>
-    <span class="na">ref</span><span class="pi">:</span> <span class="s">../objectives/increase-fleet-availability.yaml</span>
+    <span class="s">$ref</span><span class="pi">:</span> <span class="s">../objectives/increase-fleet-availability.yaml</span>
 
   <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">DP-AVIATION-001</span>
     <span class="na">type</span><span class="pi">:</span> <span class="s">DataProduct</span>
-    <span class="na">ref</span><span class="pi">:</span> <span class="s">../products/aircraft-maintenance-history.yaml</span>
+    <span class="s">$ref</span><span class="pi">:</span> <span class="s">../products/aircraft-maintenance-history.yaml</span>
 </code></pre></div><h2 id='node-properties'>Node Properties</h2>
 <p>Each node within an ODPG document represents a distinct entity participating in the graph ecosystem, where the node itself serves as the graph reference point that enables relationships, dependencies, semantic mappings, governance propagation, strategic alignment, and interoperability across connected specifications and platforms.</p>
 
@@ -613,11 +619,11 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 </tr>
 </tbody></table>
 
-<p>The id property uniquely identifies the node within the graph and allows edges to establish relationships between connected entities.</p>
+<p>The <strong>id</strong> property uniquely identifies the node within the graph and allows edges to establish relationships between connected entities.</p>
 
-<p>The type property identifies the category of entity represented by the node, thereby enabling graph consumers, validation systems, governance engines, AI agents, and traversal engines to interpret the role of the entity correctly.</p>
+<p>The <strong>type</strong> property identifies the category of entity represented by the node, thereby enabling graph consumers, validation systems, governance engines, AI agents, and traversal engines to interpret the role of the entity correctly.</p>
 
-<p>The ref property provides a path or URI reference to the underlying specification, thereby allowing ODPG to function as a lightweight relationship layer that interoperates with external specifications such as ODPS documents, governance definitions, API specifications, vocabulary definitions, use case files, or objective specifications.</p>
+<p>The <strong>$ref</strong> property provides a path or URI reference to the underlying specification, thereby allowing ODPG to function as a lightweight relationship layer that interoperates with external specifications such as ODPS documents, governance definitions, API specifications, vocabulary definitions, use case files, or objective specifications.</p>
 <h2 id='supported-node-types'>Supported Node Types</h2>
 <p>ODPG supports multiple node types capable of representing strategic, operational, governance, semantic, and AI-related entities across enterprise ecosystems.</p>
 
