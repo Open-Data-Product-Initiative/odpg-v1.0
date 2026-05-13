@@ -437,6 +437,20 @@
             <a href="#specification-extensions" class="toc-h1 toc-link" data-title="Specification extensions">Specification extensions</a>
           </li>
           <li>
+            <a href="#terms-used" class="toc-h1 toc-link" data-title="Terms used">Terms used</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#shared-terms-from-odpv-graph-document-and-nodes" class="toc-h2 toc-link" data-title="Shared terms from ODPV (graph document and nodes)">Shared terms from ODPV (graph document and nodes)</a>
+                  </li>
+                  <li>
+                    <a href="#shared-relationship-terms-from-odpv-edges" class="toc-h2 toc-link" data-title="Shared relationship terms from ODPV (edges)">Shared relationship terms from ODPV (edges)</a>
+                  </li>
+                  <li>
+                    <a href="#odpg-and-project-specific-usage-notes" class="toc-h2 toc-link" data-title="ODPG- and project-specific usage notes">ODPG- and project-specific usage notes</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#editors-and-contributors" class="toc-h1 toc-link" data-title="Editors and contributors">Editors and contributors</a>
           </li>
       </ul>
@@ -1530,25 +1544,25 @@ strategic opportunities emerging across multiple connected entities</p>
 <div class="highlight"><pre class="highlight yaml"><code><span class="na">nodes</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">AGENT-001</span>
     <span class="na">type</span><span class="pi">:</span> <span class="s">Agent</span>
-    <span class="na">ref</span><span class="pi">:</span> <span class="s">../agents/enterprise-analytics-agent.yaml</span>
+    <span class="s">$ref</span><span class="pi">:</span> <span class="s">../agents/enterprise-analytics-agent.yaml</span>
 
   <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">DP-001</span>
     <span class="na">type</span><span class="pi">:</span> <span class="s">DataProduct</span>
-    <span class="na">ref</span><span class="pi">:</span> <span class="s">../products/customer-360.yaml</span>
+    <span class="s">$ref</span><span class="pi">:</span> <span class="s">../products/customer-360.yaml</span>
 
   <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">API-001</span>
     <span class="na">type</span><span class="pi">:</span> <span class="s">API</span>
-    <span class="na">ref</span><span class="pi">:</span> <span class="s">../apis/customer-insights-api.yaml</span>
+    <span class="s">$ref</span><span class="pi">:</span> <span class="s">../apis/customer-insights-api.yaml</span>
 
 <span class="na">edges</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">from</span><span class="pi">:</span> <span class="s">AGENT-001</span>
     <span class="na">to</span><span class="pi">:</span> <span class="s">DP-001</span>
-    <span class="na">type</span><span class="pi">:</span> <span class="s">USES</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">uses</span>
     <span class="na">confidence</span><span class="pi">:</span> <span class="s">high</span>
 
   <span class="pi">-</span> <span class="na">from</span><span class="pi">:</span> <span class="s">AGENT-001</span>
     <span class="na">to</span><span class="pi">:</span> <span class="s">API-001</span>
-    <span class="na">type</span><span class="pi">:</span> <span class="s">USES</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">uses</span>
     <span class="na">confidence</span><span class="pi">:</span> <span class="s">high</span>
 </code></pre></div><h3 id='federation-toolkit'>Federation Toolkit</h3>
 <p>The Federation Toolkit enables organizations to connect multiple ODPG ecosystems into federated graph environments capable of supporting cross-domain interoperability, distributed governance, and enterprise-scale graph reasoning.</p>
@@ -1622,6 +1636,200 @@ strategic opportunities emerging across multiple connected entities</p>
 <td>Allows extensions to the Open Data Product Graphs Schema. The field name MUST begin with <code>x-</code>, for example, <code>x-internal-id</code>. The value can be null, a primitive, an array, or an object.</td>
 </tr>
 </tbody></table>
+<h1 id='terms-used'>Terms used</h1>
+<p>This project works with <strong><a href="https://opendataproducts.org/odpg-v1.0/">Open Data Product Graphs (ODPG) 1.0</a></strong> documents and a small HTML generator for exploration. ODPG uses the <strong><a href="https://opendataproducts.org/odpv-v1.0/">Open Data Product Vocabulary (ODPV)</a></strong> as the shared vocabulary across the OpenDataProducts.org standards family: stable identifiers, labels, definitions, aliases, and <strong>relationship names</strong> should stay aligned with ODPV so graphs stay interoperable with ODPS, ODPC, and other tools.</p>
+
+<p>For machine-readable lookup of vocabulary entries, use the ODPV term records at <strong><a href="https://opendataproducts.org/odpv-v1.0/vocab/terms.jsonl">ODPV terms.jsonl</a></strong> (when available from the publication host).</p>
+
+<p>The tables below list <strong>ODPV-aligned terms this repo actually uses</strong> in the sample graph, the generator, and the explorer UI—plus short notes where ODPG gives them a concrete graph shape.</p>
+
+<hr>
+<h2 id='shared-terms-from-odpv-graph-document-and-nodes'>Shared terms from ODPV (graph document and nodes)</h2>
+<table><thead>
+<tr>
+<th>Term (human)</th>
+<th>ODPV-style term</th>
+<th>Usage in this project</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Data product graph</td>
+<td><code>DataProductGraph</code></td>
+<td>Root <code>kind</code> of the YAML graph; validated in <code>generate_graph_explorer.py</code> as <code>DataProductGraph</code>.</td>
+</tr>
+<tr>
+<td>Graph identifier</td>
+<td><code>Identifier</code> (concept)</td>
+<td>Root <code>id</code> and each node <code>id</code>—unique keys used by edges (<code>from</code> / <code>to</code>).</td>
+</tr>
+<tr>
+<td>Reference</td>
+<td><code>Reference</code> (concept)</td>
+<td>Each node’s <strong><code>ref</code></strong> property points to the underlying file or URI for that entity (ODPG describes this pattern as a lightweight link to ODPS, policies, use cases, etc.).</td>
+</tr>
+<tr>
+<td>Data product</td>
+<td><code>DataProduct</code></td>
+<td>Node <code>type</code> value (e.g. sample <code>DP-*</code> nodes).</td>
+</tr>
+<tr>
+<td>Use case</td>
+<td><code>UseCase</code></td>
+<td>Node <code>type</code> value (e.g. sample <code>UC-*</code>).</td>
+</tr>
+<tr>
+<td>Business objective</td>
+<td><code>BusinessObjective</code></td>
+<td>Node <code>type</code> value (e.g. sample <code>OBJ-*</code>).</td>
+</tr>
+<tr>
+<td>KPI</td>
+<td><code>KPI</code></td>
+<td>Node <code>type</code> value (e.g. sample <code>KPI-*</code>).</td>
+</tr>
+<tr>
+<td>Policy</td>
+<td><code>Policy</code></td>
+<td>Node <code>type</code> value (e.g. sample <code>POL-*</code>); governance relationships attach here.</td>
+</tr>
+<tr>
+<td>API</td>
+<td><code>API</code></td>
+<td>Node <code>type</code> value (e.g. sample <code>API-*</code>).</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td><code>Agent</code></td>
+<td>Node <code>type</code> value (e.g. sample <code>AGENT-*</code>).</td>
+</tr>
+<tr>
+<td>Strategic opportunity</td>
+<td><code>StrategicOpportunity</code></td>
+<td>Node <code>type</code> value (e.g. sample <code>OPP-*</code>).</td>
+</tr>
+</tbody></table>
+
+<p>ODPG defines <strong>additional</strong> supported node types (e.g. <code>Domain</code>, <code>Dataset</code>, <code>Workflow</code>, <code>Capability</code>) that are valid in the standard but <strong>do not appear</strong> in the current sample <code>graph.yaml</code> or in the explorer’s fixed legend palette; you can still use them in your own graphs if your schema and tooling allow.</p>
+
+<hr>
+<h2 id='shared-relationship-terms-from-odpv-edges'>Shared relationship terms from ODPV (edges)</h2>
+<p>Edge <strong><code>type</code></strong> values in YAML are spelled <strong>exactly</strong> as in ODPG (camelCase where applicable). The generator’s core list and tooltips mirror the ODPG relationship model, including:</p>
+
+<table><thead>
+<tr>
+<th>Edge <code>type</code> (ODPG / ODPV-aligned)</th>
+<th>Role in graphs here</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>uses</code></td>
+<td>Operational usage between nodes.</td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td>Support for a business objective.</td>
+</tr>
+<tr>
+<td><code>contributesTo</code></td>
+<td>Contribution toward an outcome or objective.</td>
+</tr>
+<tr>
+<td><code>measures</code></td>
+<td>KPI measures an objective or outcome.</td>
+</tr>
+<tr>
+<td><code>tracks</code></td>
+<td>Tracking or KPI-related information flow.</td>
+</tr>
+<tr>
+<td><code>dependsOn</code></td>
+<td>Dependency between nodes.</td>
+</tr>
+<tr>
+<td><code>produce</code> / <code>Consumes</code></td>
+<td>Produce / consume data or interfaces (as allowed by your YAML schema; literals match ODPG examples and tooling in this repo).</td>
+</tr>
+<tr>
+<td><code>governedBy</code></td>
+<td>Governance or policy attachment.</td>
+</tr>
+<tr>
+<td><code>ownedBy</code></td>
+<td>Ownership or stewardship.</td>
+</tr>
+<tr>
+<td><code>alignsWith</code></td>
+<td>Strategic or semantic alignment.</td>
+</tr>
+<tr>
+<td><code>relatedTo</code></td>
+<td>Generic semantic link.</td>
+</tr>
+<tr>
+<td><code>impacts</code></td>
+<td>Impact relationship.</td>
+</tr>
+<tr>
+<td><code>derivedFrom</code></td>
+<td>Derivation or origin.</td>
+</tr>
+<tr>
+<td><code>exposes</code></td>
+<td>API or interface exposure.</td>
+</tr>
+<tr>
+<td><code>monitors</code></td>
+<td>Monitoring relationship.</td>
+</tr>
+<tr>
+<td><code>identifies</code></td>
+<td>Identification of an opportunity or condition.</td>
+</tr>
+</tbody></table>
+
+<p>Domain-specific <strong><code>type</code></strong> strings are allowed by ODPG for extension; the explorer will still render them, with legend coloring falling back to a neutral default when no explicit color is defined.</p>
+
+<hr>
+<h2 id='odpg-and-project-specific-usage-notes'>ODPG- and project-specific usage notes</h2>
+<table><thead>
+<tr>
+<th>Term</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>schema</code></td>
+<td>URL of the ODPG YAML schema used for validation (see <a href="https://opendataproducts.org/odpg-v1.0/schema/graph.yaml">ODPG YAML schema</a>).</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>ODPG document version field carried in the graph root.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>Localized graph title (<code>name.en</code>, etc.) shown in the explorer header.</td>
+</tr>
+<tr>
+<td><code>nodes</code></td>
+<td>Array of <code>{ id, type, ref }</code> entities; the explorer maps <code>type</code> to colors and groups.</td>
+</tr>
+<tr>
+<td><code>edges</code></td>
+<td>Array of <code>{ from, to, type, confidence }</code>; <code>confidence</code> is <strong><code>high</code></strong>, <strong><code>medium</code></strong>, or <strong><code>low</code></strong> per ODPG guidance.</td>
+</tr>
+<tr>
+<td><code>generate_graph_explorer.py</code></td>
+<td>Offline generator: reads graph YAML, validates core fields, emits <code>graph-explorer.html</code> for browser viewing.</td>
+</tr>
+<tr>
+<td><code>graph-explorer.html</code></td>
+<td>Static visualization; relationship descriptions in the UI are aligned with the ODPG edge definitions baked into the generator.</td>
+</tr>
+</tbody></table>
+
+<p><strong>Reference field name:</strong> Published ODPG examples sometimes show <strong><code>$ref</code></strong> on nodes; this repository’s sample graph uses <strong><code>ref</code></strong>, which matches the generator’s validator. Align field naming with whichever ODPG JSON/YAML schema you validate against.</p>
+
+<p><strong>Relationship vocabulary:</strong> Prefer ODPV-defined relationship identifiers for <code>edges[].type</code> so the same edge semantics can be shared with ODPC (<code>Catalog.meta.graph</code>), other ODPG tools, and downstream AI or governance pipelines—as described in the <a href="https://opendataproducts.org/odpg-v1.0/">ODPG 1.0</a> specification and the ODPC–ODPG integration patterns in the Open Data Products family.</p>
 <h1 id='editors-and-contributors'>Editors and contributors</h1>
 <p>This specification is openly developed and a lot of the work comes from community. We list all community contributors as a sign of appreciation. Maintainers process the feedback and draft new candidate releases, which may become the versions of the specification. </p>
 
