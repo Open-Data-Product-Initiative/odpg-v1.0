@@ -22,6 +22,7 @@ ODPG_CORE_EDGE_TYPES_ORDERED: tuple[str, ...] = (
     "governedBy",
     "ownedBy",
     "alignsWith",
+    "alignWith",
     "relatedTo",
     "impacts",
     "derivedFrom",
@@ -42,6 +43,7 @@ ODPG_EDGE_DESCRIPTIONS: dict[str, str] = {
     "governedBy": "A node is governed by a policy or control",
     "ownedBy": "A node is owned by a person, team, or domain",
     "alignsWith": "A node aligns strategically or semantically with another node",
+    "alignWith": "A node aligns strategically or semantically with another node",
     "relatedTo": "A generic semantic relationship",
     "impacts": "A node impacts another node",
     "derivedFrom": "A node originates from another node",
@@ -66,6 +68,7 @@ _ODPG_LEGEND_COLOR_BY_LOWER: dict[str, str] = {
     "governedby": "#db2777",
     "ownedby": "#ca8a04",
     "alignswith": "#f97316",
+    "alignwith": "#f97316",
     "relatedto": "#64748b",
     "impacts": "#dc2626",
     "derivedfrom": "#78716c",
@@ -82,29 +85,72 @@ def load_graph_from_yaml(path: Path | str | None = None) -> dict:
     return yaml.safe_load(graph_path.read_text(encoding="utf-8"))
 
 
+def _graph_payload(document: dict) -> dict:
+    payload = document.get("graph")
+    return payload if isinstance(payload, dict) else document
+
+
+def _graph_metadata(document: dict) -> dict:
+    payload = _graph_payload(document)
+    metadata = payload.get("metadata")
+    if isinstance(metadata, dict):
+        return metadata
+    return {
+        "id": document.get("id"),
+        "name": document.get("name"),
+        "description": document.get("description"),
+    }
+
+
+def _node_ref(node: dict) -> str:
+    return node.get("$ref") or node.get("ref") or ""
+
+
 def validate_graph(graph):
-    required_root_fields = ["schema", "version", "kind", "id", "name", "nodes", "edges"]
+    required_root_fields = ["schema", "version", "kind"]
 
     for field in required_root_fields:
         if field not in graph:
             raise ValueError(f"Missing required root field: {field}")
 
-    if graph["kind"] != "DataProductGraph":
-        raise ValueError("Invalid kind. Expected: DataProductGraph")
+    if graph["kind"] not in ("Graph", "DataProductGraph"):
+        raise ValueError("Invalid kind. Expected: Graph")
+
+    payload = _graph_payload(graph)
+    metadata = _graph_metadata(graph)
+
+    if "graph" in graph and not isinstance(graph["graph"], dict):
+        raise ValueError("Root field graph must be an object")
+
+    if "graph" in graph:
+        for field in ["metadata", "nodes", "edges"]:
+            if field not in payload:
+                raise ValueError(f"Missing required graph field: graph.{field}")
+
+        for field in ["id", "name", "description"]:
+            if field not in metadata:
+                raise ValueError(f"Missing required metadata field: graph.metadata.{field}")
+    else:
+        for field in ["id", "name", "nodes", "edges"]:
+            if field not in payload:
+                raise ValueError(f"Missing required graph field: {field}")
 
     node_ids = set()
 
-    for node in graph["nodes"]:
-        for field in ["id", "type", "ref"]:
+    for node in payload["nodes"]:
+        for field in ["id", "type"]:
             if field not in node:
                 raise ValueError(f"Node is missing required field: {field}")
+
+        if not _node_ref(node):
+            raise ValueError("Node is missing required field: $ref")
 
         if node["id"] in node_ids:
             raise ValueError(f"Duplicate node id found: {node['id']}")
 
         node_ids.add(node["id"])
 
-    for edge in graph["edges"]:
+    for edge in payload["edges"]:
         for field in ["from", "to", "type", "confidence"]:
             if field not in edge:
                 raise ValueError(f"Edge is missing required field: {field}")
@@ -132,8 +178,9 @@ def _edge_type_raw(edge: dict) -> str:
 
 def collect_relationship_types(graph: dict) -> list[str]:
     """Types present in the graph: ODPG spec order (camelCase literals), then other types A–Z."""
+    payload = _graph_payload(graph)
     seen_lower_to_raw: dict[str, str] = {}
-    for edge in graph.get("edges") or []:
+    for edge in payload.get("edges") or []:
         raw = _edge_type_raw(edge)
         if not raw:
             continue
@@ -176,7 +223,8 @@ def _edge_line_dashed(type_display: str, edge: dict) -> bool:
 
 
 def _build_legend_relationship_html(relationship_types: list[str], graph: dict) -> str:
-    edges = graph.get("edges") or []
+    payload = _graph_payload(graph)
+    edges = payload.get("edges") or []
 
     def sample_edge(label_raw: str) -> dict:
         lo = label_raw.lower()
@@ -207,15 +255,18 @@ def _build_legend_relationship_html(relationship_types: list[str], graph: dict) 
 
 
 def build_html(graph: dict) -> str:
+    payload = _graph_payload(graph)
+    metadata = _graph_metadata(graph)
     relationship_types = collect_relationship_types(graph)
     odpg_supported_ordered_json = json.dumps(list(ODPG_CORE_EDGE_TYPES_ORDERED), ensure_ascii=False)
     odpg_descriptions_json = json.dumps(ODPG_EDGE_DESCRIPTIONS_LOWER, ensure_ascii=False)
-    graph_title = graph.get("name", {}).get("en", graph.get("id", "ODPG Graph Explorer"))
-    graph_meta = f"{graph.get('id')} · ODPG {graph.get('version')} · {graph.get('kind')}"
+    graph_title = metadata.get("name", {}).get("en", metadata.get("id", "ODPG Graph Explorer"))
+    graph_meta = f"{metadata.get('id')} · ODPG {graph.get('version')} · {graph.get('kind')}"
 
     vis_nodes = []
-    for node in graph["nodes"]:
-        display_name = _ref_to_display_name(node["ref"])
+    for node in payload["nodes"]:
+        ref = _node_ref(node)
+        display_name = _ref_to_display_name(ref)
         vis_nodes.append(
             {
                 "id": node["id"],
@@ -223,17 +274,17 @@ def build_html(graph: dict) -> str:
                 "title": (
                     f"ID: {node['id']}\n"
                     f"Type: {node['type']}\n"
-                    f"Ref: {node['ref']}"
+                    f"Ref: {ref}"
                 ),
                 "group": node["type"],
-                "ref": node["ref"],
+                "ref": ref,
                 "type": node["type"],
                 "displayName": display_name,
             }
         )
 
     vis_edges = []
-    for edge in graph["edges"]:
+    for edge in payload["edges"]:
         display = _edge_relationship_label(edge)
         conf = str(edge["confidence"]).lower()
         ec = _edge_legend_color(display)
@@ -758,7 +809,7 @@ def build_html(graph: dict) -> str:
 </head>
 <body>
   <header class="topbar">
-    <div class="topbar-brand"><img src="https://opendataproducts.org/odpg-v1.0/images/logo-dps-2024-f87840fa.png" alt="ODPG Logo" width="100"></div>
+    <div class="topbar-brand"><img src="https://opendataproducts.org/odpg-v1.0/images/odpg-white-5309733b.png" alt="ODPG Logo" width="100"></div>
     <div class="topbar-center">
       <span class="topbar-graph-title">{html.escape(graph_title)}</span>
       <span class="topbar-graph-meta">{html.escape(graph_meta)}</span>
