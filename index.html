@@ -384,6 +384,11 @@
           </li>
           <li>
             <a href="#graph-catalog" class="toc-h1 toc-link" data-title="Graph Catalog">Graph Catalog</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#optional-attributes-and-options" class="toc-h2 toc-link" data-title="Optional attributes and options">Optional attributes and options</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#strategic-intelligence" class="toc-h1 toc-link" data-title="Strategic Intelligence">Strategic Intelligence</a>
@@ -967,7 +972,113 @@ Development of the specification is under the umbrella of the Linux Foundation.<
     <span class="na">to</span><span class="pi">:</span> <span class="s">OBJ-AVIATION-001</span>
     <span class="na">type</span><span class="pi">:</span> <span class="s">alignWith</span>
     <span class="na">confidence</span><span class="pi">:</span> <span class="s">medium</span>
-</code></pre></div><h1 id='strategic-intelligence'>Strategic Intelligence</h1>
+</code></pre></div><h2 id='optional-attributes-and-options'>Optional attributes and options</h2>
+<blockquote>
+<p>Example of catalog metadata usage:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation Data Product Value Graph</span>
+  <span class="na">description</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Graph describing how aviation data products, use cases, policies, agents, opportunities, and business objectives are connected.</span>
+  <span class="na">domain</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation</span>
+  <span class="na">purpose</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Support portfolio analysis, value mapping, governance review, and AI-assisted reasoning.</span>
+  <span class="na">tags</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">aviation</span>
+    <span class="pi">-</span> <span class="s">predictive-maintenance</span>
+    <span class="pi">-</span> <span class="s">fleet-availability</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">draft</span>
+  <span class="na">visibility</span><span class="pi">:</span> <span class="s">public</span>
+  <span class="na">owner</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">Aviation Data Product Team</span>
+    <span class="na">email</span><span class="pi">:</span> <span class="s">aviation-data-products@example.com</span>
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>metadata</code></td>
+<td>Object</td>
+<td>Optional metadata block for describing the graph, its purpose, ownership, visibility, and discovery information.</td>
+</tr>
+<tr>
+<td><code>metadata.name</code></td>
+<td>Object</td>
+<td>Human-readable name of the graph. Supports language-specific values.</td>
+</tr>
+<tr>
+<td><code>metadata.name.en</code></td>
+<td>String</td>
+<td>English name of the graph.</td>
+</tr>
+<tr>
+<td><code>metadata.description</code></td>
+<td>Object</td>
+<td>Human-readable description of what the graph represents. Supports language-specific values.</td>
+</tr>
+<tr>
+<td><code>metadata.description.en</code></td>
+<td>String</td>
+<td>English description of the graph.</td>
+</tr>
+<tr>
+<td><code>metadata.domain</code></td>
+<td>Object</td>
+<td>Business, industry, or subject domain covered by the graph. Supports language-specific values.</td>
+</tr>
+<tr>
+<td><code>metadata.domain.en</code></td>
+<td>String</td>
+<td>English domain name.</td>
+</tr>
+<tr>
+<td><code>metadata.purpose</code></td>
+<td>Object</td>
+<td>Explanation of why the graph exists and how it should be used. Supports language-specific values.</td>
+</tr>
+<tr>
+<td><code>metadata.purpose.en</code></td>
+<td>String</td>
+<td>English purpose statement.</td>
+</tr>
+<tr>
+<td><code>metadata.tags</code></td>
+<td>Array of strings</td>
+<td>Keywords used for discovery, filtering, grouping, and search.</td>
+</tr>
+<tr>
+<td><code>metadata.status</code></td>
+<td>String</td>
+<td>Current status of the graph. Recommended values include <code>draft</code>, <code>active</code>, <code>deprecated</code>, and <code>archived</code>.</td>
+</tr>
+<tr>
+<td><code>metadata.visibility</code></td>
+<td>String</td>
+<td>Intended visibility of the graph. Recommended values include <code>public</code>, <code>internal</code>, <code>restricted</code>, and <code>private</code>.</td>
+</tr>
+<tr>
+<td><code>metadata.owner</code></td>
+<td>Object</td>
+<td>Party responsible for the graph.</td>
+</tr>
+<tr>
+<td><code>metadata.owner.name</code></td>
+<td>String</td>
+<td>Name of the owning person, team, or organization.</td>
+</tr>
+<tr>
+<td><code>metadata.owner.email</code></td>
+<td>String</td>
+<td>Contact email for the owning party.</td>
+</tr>
+</tbody></table>
+<h1 id='strategic-intelligence'>Strategic Intelligence</h1>
 <p>ODPG introduces a graph-native intelligence layer capable of connecting business objectives, operational use cases, KPIs, governance structures, data products, and AI systems into a unified strategic reasoning model that enables organizations to understand not only what assets exist, but also how those assets contribute to measurable business outcomes and organizational priorities.</p>
 
 <p>Through graph relationships, organizations can identify:</p>
