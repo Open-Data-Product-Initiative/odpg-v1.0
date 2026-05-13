@@ -1,4 +1,4 @@
- # Governance and Trust
+# Governance and Trust
 
 ODPG supports governance propagation by enabling organizations to connect policies, controls, ownership structures, quality requirements, stewardship responsibilities, and compliance expectations directly to graph entities and relationships.
 
