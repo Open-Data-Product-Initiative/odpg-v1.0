@@ -11,10 +11,10 @@ toc_footers:
 
 includes:
   - structure
+  - catalog
   - nodes
   - edges
   - confidence
-  - catalog
   - strategy
   - governance
   - interoperability

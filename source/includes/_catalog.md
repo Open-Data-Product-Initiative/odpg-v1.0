@@ -10,128 +10,129 @@ The following example demonstrates a complete ODPG document connecting use cases
 schema: https://opendataproducts.org/odpg-v1.0/schema/graph.yaml
 version: 1.0
 kind: Graph
-metadata:
-  id: GRAPH-AVIATION-001
-  name:
-    en: Aviation Data Product Value Graph
-  description:
-    en: Graph describing how aviation data products, use cases, policies, agents, opportunities, and business objectives are connected.
-  domain:
-    en: Aviation
-  purpose:
-    en: Support portfolio analysis, value mapping, governance review, and AI-assisted reasoning.
-  tags:
-    - aviation
-    - predictive-maintenance
-    - fleet-availability
-  status: draft
-  visibility: public
-  owner:
-    name: Aviation Data Product Team
-    email: aviation-data-products@example.com
+graph:
+  metadata:
+    id: GRAPH-AVIATION-001
+    name:
+      en: Aviation Data Product Value Graph
+    description:
+      en: Graph describing how aviation data products, use cases, policies, agents, opportunities, and business objectives are connected.
+    domain:
+      en: Aviation
+    purpose:
+      en: Support portfolio analysis, value mapping, governance review, and AI-assisted reasoning.
+    tags:
+      - aviation
+      - predictive-maintenance
+      - fleet-availability
+    status: draft
+    visibility: public
+    owner:
+      name: Aviation Data Product Team
+      email: aviation-data-products@example.com
 
-nodes:
-  - id: UC-AVIATION-001
-    type: UseCase
-    $ref: ../usecases/predictive-maintenance-aircraft.yaml
+  nodes:
+    - id: UC-AVIATION-001
+      type: UseCase
+      $ref: ../usecases/predictive-maintenance-aircraft.yaml
 
-  - id: OBJ-AVIATION-001
-    type: BusinessObjective
-    $ref: ../objectives/increase-fleet-availability.yaml
+    - id: OBJ-AVIATION-001
+      type: BusinessObjective
+      $ref: ../objectives/increase-fleet-availability.yaml
 
-  - id: KPI-AVIATION-001
-    type: KPI
-    $ref: ../kpis/fleet-availability-rate.yaml
+    - id: KPI-AVIATION-001
+      type: KPI
+      $ref: ../kpis/fleet-availability-rate.yaml
 
-  - id: DP-AVIATION-001
-    type: DataProduct
-    $ref: ../products/aircraft-maintenance-history.yaml
+    - id: DP-AVIATION-001
+      type: DataProduct
+      $ref: ../products/aircraft-maintenance-history.yaml
 
-  - id: DP-AVIATION-002
-    type: DataProduct
-    $ref: ../products/aircraft-sensor-events.yaml
+    - id: DP-AVIATION-002
+      type: DataProduct
+      $ref: ../products/aircraft-sensor-events.yaml
 
-  - id: API-AVIATION-001
-    type: API
-    $ref: ../apis/maintenance-risk-score-api.yaml
+    - id: API-AVIATION-001
+      type: API
+      $ref: ../apis/maintenance-risk-score-api.yaml
 
-  - id: POL-AVIATION-001
-    type: Policy
-    $ref: ../policies/aviation-data-quality-policy.yaml
+    - id: POL-AVIATION-001
+      type: Policy
+      $ref: ../policies/aviation-data-quality-policy.yaml
 
-  - id: AGENT-AVIATION-001
-    type: Agent
-    $ref: ../agents/maintenance-recommendation-agent.yaml
+    - id: AGENT-AVIATION-001
+      type: Agent
+      $ref: ../agents/maintenance-recommendation-agent.yaml
 
-  - id: OPP-AVIATION-001
-    type: StrategicOpportunity
-    $ref: ../opportunities/reduce-unscheduled-maintenance.yaml
+    - id: OPP-AVIATION-001
+      type: StrategicOpportunity
+      $ref: ../opportunities/reduce-unscheduled-maintenance.yaml
 
-edges:
-  - from: UC-AVIATION-001
-    to: DP-AVIATION-001
-    type: uses
-    confidence: high
+  edges:
+    - from: UC-AVIATION-001
+      to: DP-AVIATION-001
+      type: uses
+      confidence: high
 
-  - from: UC-AVIATION-001
-    to: DP-AVIATION-002
-    type: uses
-    confidence: high
+    - from: UC-AVIATION-001
+      to: DP-AVIATION-002
+      type: uses
+      confidence: high
 
-  - from: UC-AVIATION-001
-    to: OBJ-AVIATION-001
-    type: supports
-    confidence: high
+    - from: UC-AVIATION-001
+      to: OBJ-AVIATION-001
+      type: supports
+      confidence: high
 
-  - from: DP-AVIATION-001
-    to: OBJ-AVIATION-001
-    type: contributesTo
-    confidence: medium
+    - from: DP-AVIATION-001
+      to: OBJ-AVIATION-001
+      type: contributesTo
+      confidence: medium
 
-  - from: DP-AVIATION-002
-    to: OBJ-AVIATION-001
-    type: contributesTo
-    confidence: medium
+    - from: DP-AVIATION-002
+      to: OBJ-AVIATION-001
+      type: contributesTo
+      confidence: medium
 
-  - from: KPI-AVIATION-001
-    to: OBJ-AVIATION-001
-    type: measures
-    confidence: high
+    - from: KPI-AVIATION-001
+      to: OBJ-AVIATION-001
+      type: measures
+      confidence: high
 
-  - from: DP-AVIATION-001
-    to: KPI-AVIATION-001
-    type: tracks
-    confidence: medium
+    - from: DP-AVIATION-001
+      to: KPI-AVIATION-001
+      type: tracks
+      confidence: medium
 
-  - from: DP-AVIATION-001
-    to: API-AVIATION-001
-    type: exposes
-    confidence: high
+    - from: DP-AVIATION-001
+      to: API-AVIATION-001
+      type: exposes
+      confidence: high
 
-  - from: DP-AVIATION-001
-    to: POL-AVIATION-001
-    type: governedBy
-    confidence: high
+    - from: DP-AVIATION-001
+      to: POL-AVIATION-001
+      type: governedBy
+      confidence: high
 
-  - from: AGENT-AVIATION-001
-    to: DP-AVIATION-001
-    type: uses
-    confidence: high
+    - from: AGENT-AVIATION-001
+      to: DP-AVIATION-001
+      type: uses
+      confidence: high
 
-  - from: AGENT-AVIATION-001
-    to: API-AVIATION-001
-    type: uses
-    confidence: high
+    - from: AGENT-AVIATION-001
+      to: API-AVIATION-001
+      type: uses
+      confidence: high
 
-  - from: UC-AVIATION-001
-    to: OPP-AVIATION-001
-    type: identifies
-    confidence: medium
+    - from: UC-AVIATION-001
+      to: OPP-AVIATION-001
+      type: identifies
+      confidence: medium
 
-  - from: OPP-AVIATION-001
-    to: OBJ-AVIATION-001
-    type: alignWith
-    confidence: medium
+    - from: OPP-AVIATION-001
+      to: OBJ-AVIATION-001
+      type: alignWith
+      confidence: medium
 ```
 
 

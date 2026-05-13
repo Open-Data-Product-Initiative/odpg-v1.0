@@ -9,18 +9,6 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 -->
 # AI Agent Interoperability
 
-ODPG provides structured graph context that can be consumed by AI agents, automation systems, semantic search engines, orchestration platforms, and reasoning systems operating across enterprise ecosystems.
-
-Through graph traversal, AI agents can identify:
-
-* which data products are relevant to a task
-* which APIs are available
-* which objectives are being supported
-* which policies apply
-* which governance boundaries exist
-* which dependencies affect execution
-* which relationships are inferred versus confirmed
-
 ```yml 
 nodes:
   - id: AGENT-AVIATION-001
@@ -46,6 +34,18 @@ edges:
     type: uses
     confidence: high
 ```
+
+ODPG provides structured graph context that can be consumed by AI agents, automation systems, semantic search engines, orchestration platforms, and reasoning systems operating across enterprise ecosystems.
+
+Through graph traversal, AI agents can identify:
+
+* which data products are relevant to a task
+* which APIs are available
+* which objectives are being supported
+* which policies apply
+* which governance boundaries exist
+* which dependencies affect execution
+* which relationships are inferred versus confirmed
 
 This capability establishes the foundation for graph-native AI ecosystems where agents can navigate enterprise knowledge structures using trusted semantic relationships and governance-aware graph traversal.
 

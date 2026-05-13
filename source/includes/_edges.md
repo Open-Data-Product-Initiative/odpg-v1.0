@@ -9,10 +9,6 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 -->
 # Edges
 
-The edges section defines the relationships between nodes, where each edge establishes a directional connection that represents strategic alignment, operational dependency, semantic association, governance propagation, usage patterns, contribution paths, ownership relationships, or interoperability mappings between entities.
-
-An edge always connects a source node to a target node using the from and to properties.
-
 > Example of edges object usage:
 
 ```yml
@@ -32,6 +28,11 @@ edges:
     type: contributesTo
     confidence: medium
 ```
+
+The edges section defines the relationships between nodes, where each edge establishes a directional connection that represents strategic alignment, operational dependency, semantic association, governance propagation, usage patterns, contribution paths, ownership relationships, or interoperability mappings between entities.
+
+An edge always connects a source node to a target node using the from and to properties.
+
 
 Through edges, ODPG enables organizations to construct connected value graphs capable of supporting strategic analysis, governance reasoning, graph traversal, semantic interoperability, dependency analysis, and AI-driven contextual reasoning.
 
