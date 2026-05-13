@@ -588,10 +588,10 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 </blockquote>
 <div class="highlight"><pre class="highlight yaml"><code><span class="na">schema</span><span class="pi">:</span> <span class="s">https://opendataproducts.org/odpg-v1.0/schema/graph.yaml</span>
 <span class="na">version</span><span class="pi">:</span> <span class="m">1.0</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">DataProductGraph</span>
-<span class="na">id</span><span class="pi">:</span> <span class="s">GRAPH-AVIATION-001</span>
-<span class="na">name</span><span class="pi">:</span>
-  <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation Data Product Value Graph</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">id</span><span class="pi">:</span> <span class="s">GRAPH-AVIATION-001</span>
+  <span class="na">name</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation Data Product Value Graph</span>
 <span class="na">nodes</span><span class="pi">:</span> <span class="pi">[]</span>
 <span class="na">edges</span><span class="pi">:</span> <span class="pi">[]</span>
 </code></pre></div><h2 id='mandatory-attributes'>Mandatory attributes</h2>
@@ -973,16 +973,7 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 <p>Example of YAML formated:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight yaml"><code><span class="na">confidence</span><span class="pi">:</span> <span class="s">high</span>
-</code></pre></div><!-- AI_AGENT_GUIDANCE:
-Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
-Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
-Use ODPC for catalog discovery; do not model discovery catalogs as ODPG graphs unless relationships or traversal are required.
-Use ODPS for full data product metadata; in ODPG, reference data products as DataProduct nodes instead of copying full ODPS content.
-Use ODPV when stable vocabulary terms, semantic mappings, or relationship names are needed.
-Use confidence values high, medium, or low for edges.
-Use x- prefixed extension fields only for implementation-specific metadata that does not redefine core ODPG semantics.
--->
-<h1 id='graph-catalog'>Graph Catalog</h1>
+</code></pre></div><h1 id='graph-catalog'>Graph Catalog</h1>
 <p>The following example demonstrates a complete ODPG document connecting use cases, business objectives, KPIs, data products, governance policies, APIs, AI agents, and strategic opportunities into a unified value graph.</p>
 
 <p><img src="images/dpvg_aviation-907830d1.jpeg" alt="Aviation Data Product Value Graph" /></p>
@@ -992,10 +983,26 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 </blockquote>
 <div class="highlight"><pre class="highlight yaml"><code><span class="na">schema</span><span class="pi">:</span> <span class="s">https://opendataproducts.org/odpg-v1.0/schema/graph.yaml</span>
 <span class="na">version</span><span class="pi">:</span> <span class="m">1.0</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">DataProductGraph</span>
-<span class="na">id</span><span class="pi">:</span> <span class="s">GRAPH-AVIATION-001</span>
-<span class="na">name</span><span class="pi">:</span>
-  <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation Data Product Value Graph</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Graph</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">id</span><span class="pi">:</span> <span class="s">GRAPH-AVIATION-001</span>
+  <span class="na">name</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation Data Product Value Graph</span>
+  <span class="na">description</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Graph describing how aviation data products, use cases, policies, agents, opportunities, and business objectives are connected.</span>
+  <span class="na">domain</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation</span>
+  <span class="na">purpose</span><span class="pi">:</span>
+    <span class="na">en</span><span class="pi">:</span> <span class="s">Support portfolio analysis, value mapping, governance review, and AI-assisted reasoning.</span>
+  <span class="na">tags</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">aviation</span>
+    <span class="pi">-</span> <span class="s">predictive-maintenance</span>
+    <span class="pi">-</span> <span class="s">fleet-availability</span>
+  <span class="na">status</span><span class="pi">:</span> <span class="s">draft</span>
+  <span class="na">visibility</span><span class="pi">:</span> <span class="s">public</span>
+  <span class="na">owner</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">Aviation Data Product Team</span>
+    <span class="na">email</span><span class="pi">:</span> <span class="s">aviation-data-products@example.com</span>
 
 <span class="na">nodes</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">UC-AVIATION-001</span>
@@ -1104,6 +1111,7 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 <p>Example of catalog metadata usage:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight yaml"><code><span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">id</span><span class="pi">:</span> <span class="s">GRAPH-AVIATION-001</span>
   <span class="na">name</span><span class="pi">:</span>
     <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation Data Product Value Graph</span>
   <span class="na">description</span><span class="pi">:</span>
@@ -1133,6 +1141,11 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 <td><code>metadata</code></td>
 <td>Object</td>
 <td>Optional metadata block for describing the graph, its purpose, ownership, visibility, and discovery information.</td>
+</tr>
+<tr>
+<td><code>metadata.id</code></td>
+<td>Object</td>
+<td>Unique identifier of the graph.</td>
 </tr>
 <tr>
 <td><code>metadata.name</code></td>
