@@ -20,7 +20,7 @@ properties:
     format: uri
     description: "URL of the ODPG schema used for validation."
     examples:
-      - "https://opendataproducts.org/odpg-v1.0/schema/graph.yaml"
+      - "https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml"
   version:
     oneOf:
       - type: string

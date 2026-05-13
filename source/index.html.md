@@ -18,6 +18,7 @@ includes:
   - strategy
   - governance
   - interoperability
+  - extensions
   - contributors
 
 search: true
@@ -44,8 +45,8 @@ Development of the specification is under the umbrella of the Linux Foundation.
 | Topic            | Link                                                                                                | Description                                                   |
 | ---------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | Version source   | [Open Data Product Graphs 1.0 on GitHub](https://github.com/Open-Data-Product-Initiative/odpg-v1.0) | Official source repository for the ODPG 1.0 specification     |
-| ODPG YAML schema | [YAML Schema](https://opendataproducts.org/odpg-v1.0/schema/graph.yaml)                             | Machine-readable schema definition in YAML format             |
-| ODPG JSON schema | [JSON Schema](https://opendataproducts.org/odpg-v1.0/schema/graph.json)                             | Machine-readable schema definition in JSON format             |
+| ODPG YAML schema | [YAML Schema](https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml)                             | Machine-readable schema definition in YAML format             |
+| ODPG JSON schema | [JSON Schema](https://opendataproducts.org/odpg-v1.0/schema/odpg.json)                             | Machine-readable schema definition in JSON format             |
 | Contribute       | [Raise an issue in GitHub](https://github.com/Open-Data-Product-Initiative/odpg-v1.0/issues)        | Submit issues or suggestions to the specification maintainers |
 
 

@@ -220,10 +220,12 @@ The script should:
 
 The script should use the standard ODPG structure exactly as defined in this specification.
 
+![Aviation Data Product Graph Explorer](/images/graph_example.png)
+
 > Example graph input:
 
 ```yml 
-schema: https://opendataproducts.org/odpg-v1.0/schema/graph.yaml
+schema: https://opendataproducts.org/odpg-v1.0/schemas/graph.yaml
 version: 1.0
 kind: DataProductGraph
 id: GRAPH-AVIATION-001
@@ -233,24 +235,126 @@ name:
 nodes:
   - id: UC-AVIATION-001
     type: UseCase
-    $ref: ../usecases/predictive-maintenance-aircraft.yaml
+    ref: ../usecases/predictive-maintenance-aircraft.yaml
+
+  - id: OBJ-AVIATION-001
+    type: BusinessObjective
+    ref: ../objectives/increase-fleet-availability.yaml
+
+  - id: KPI-AVIATION-001
+    type: KPI
+    ref: ../kpis/fleet-availability-rate.yaml
+
+  - id: DP-AVIATION-001
+    type: DataProduct
+    ref: ../products/aircraft-maintenance-history.yaml
+
+  - id: DP-AVIATION-002
+    type: DataProduct
+    ref: ../products/aircraft-sensor-events.yaml
+
+  - id: API-AVIATION-001
+    type: API
+    ref: ../apis/maintenance-risk-score-api.yaml
+
+  - id: POL-AVIATION-001
+    type: Policy
+    ref: ../policies/aviation-data-quality-policy.yaml
+
+  - id: AGENT-AVIATION-001
+    type: Agent
+    ref: ../agents/maintenance-recommendation-agent.yaml
+
+  - id: OPP-AVIATION-001
+    type: StrategicOpportunity
+    ref: ../opportunities/reduce-unscheduled-maintenance.yaml
 
 edges:
   - from: UC-AVIATION-001
     to: DP-AVIATION-001
     type: uses
     confidence: high
+
+  - from: UC-AVIATION-001
+    to: DP-AVIATION-002
+    type: uses
+    confidence: high
+
+  - from: UC-AVIATION-001
+    to: OBJ-AVIATION-001
+    type: supports
+    confidence: high
+
+  - from: DP-AVIATION-001
+    to: OBJ-AVIATION-001
+    type: contributesTo
+    confidence: medium
+
+  - from: DP-AVIATION-002
+    to: OBJ-AVIATION-001
+    type: contributesTo
+    confidence: medium
+
+  - from: KPI-AVIATION-001
+    to: OBJ-AVIATION-001
+    type: measures
+    confidence: high
+
+  - from: DP-AVIATION-001
+    to: KPI-AVIATION-001
+    type: tracks
+    confidence: medium
+
+  - from: DP-AVIATION-001
+    to: API-AVIATION-001
+    type: exposes
+    confidence: high
+
+  - from: DP-AVIATION-001
+    to: POL-AVIATION-001
+    type: governedBy
+    confidence: high
+
+  - from: AGENT-AVIATION-001
+    to: DP-AVIATION-001
+    type: uses
+    confidence: high
+
+  - from: AGENT-AVIATION-001
+    to: API-AVIATION-001
+    type: uses
+    confidence: high
+
+  - from: UC-AVIATION-001
+    to: OPP-AVIATION-001
+    type: identifies
+    confidence: medium
+
+  - from: OPP-AVIATION-001
+    to: OBJ-AVIATION-001
+    type: alignsWith
+    confidence: medium
+
 ```
 
 ## Required Dependencies & Execution
 
 The Python implementation requires PyYAML for parsing ODPG YAML files.
 
-```
-# Run these 2 lines 
 
-pip install pyyaml
-generate_graph_explorer.py
+1- See all options (built-in help)
+
+```text
+python generate_graph_explorer.py --help
+```
+
+You should see `-i` / `--input` and `-o` / `--output` with their defaults.
+
+---
+2- Run this 
+
+```
+python generate_graph_explorer.py -i "/path/to/graph.yml" -o "/path/to/explorer.html"
 ```
 
 | Script | Purpose |
@@ -258,6 +362,16 @@ generate_graph_explorer.py
 | [`generate_graph_explorer.py`](https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/generate_graph_explorer.py) | Transform the graph yaml file into HTML file |
 
 The script read the **graph.yaml** file and generates **graph-explorer.html** file. The resulting HTML file can then be opened directly in a browser to explore the ODPG graph visually.
+
+## Quick reference
+
+| Flag | Meaning |
+|------|--------|
+| `-i PATH` or `--input PATH` | ODPG graph YAML file to read |
+| `-o PATH` or `--output PATH` | HTML file to write |
+| `-h` or `--help` | Show help and defaults |
+
+**Defaults:** if you omit `-i`, the script uses `graph.yaml` **in the same directory as** `generate_graph_explorer.py`. If you omit `-o`, it writes **`graph-explorer.html`** in the **current working directory**.
 
 ## Graph Explorer Capabilities
 
