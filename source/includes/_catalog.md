@@ -234,7 +234,6 @@ python generate_graph_explorer.py --help
 
 You should see `-i` / `--input` and `-o` / `--output` with their defaults.
 
----
 2- Run this 
 
 ```
