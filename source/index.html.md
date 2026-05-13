@@ -1,14 +1,13 @@
 ---
 title: Open (source) Data Product Graphs DRAFT | Linux Foundation
 
-language_tabs: # must be one of [https://git.io/vQNgJ](https://git.io/vQNgJ)
-
-  - yaml
+language_tabs: # must be one of https://git.io/vQNgJ
+- yaml
 
 toc_footers:
-  - License [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-  - <br/><a href="https://opendataproducts.org">Specification home</a>
-  - <br/>Linux Foundation
+  - License <a href='https://www.apache.org/licenses/LICENSE-2.0'>Apache 2.0</a>
+  - <br/><a href='https://opendataproducts.org'>Specification home</a>
+  - <br/>Linux Foundation</a>
 
 includes:
   - structure
