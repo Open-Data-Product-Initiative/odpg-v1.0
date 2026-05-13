@@ -388,6 +388,18 @@
                   <li>
                     <a href="#optional-attributes-and-options" class="toc-h2 toc-link" data-title="Optional attributes and options">Optional attributes and options</a>
                   </li>
+                  <li>
+                    <a href="#graph-explorer-example" class="toc-h2 toc-link" data-title="Graph Explorer Example">Graph Explorer Example</a>
+                  </li>
+                  <li>
+                    <a href="#python-graph-explorer-generator" class="toc-h2 toc-link" data-title="Python Graph Explorer Generator">Python Graph Explorer Generator</a>
+                  </li>
+                  <li>
+                    <a href="#required-dependencies-amp-execution" class="toc-h2 toc-link" data-title="Required Dependencies &amp; Execution">Required Dependencies &amp; Execution</a>
+                  </li>
+                  <li>
+                    <a href="#graph-explorer-capabilities" class="toc-h2 toc-link" data-title="Graph Explorer Capabilities">Graph Explorer Capabilities</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -1080,6 +1092,121 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 <td>Contact email for the owning party.</td>
 </tr>
 </tbody></table>
+<h2 id='graph-explorer-example'>Graph Explorer Example</h2>
+<p>The following YAML example can also be used as the input for a lightweight Graph Explorer generator capable of transforming an ODPG document into an interactive HTML-based visualization. This allows organizations to convert machine-readable graph specifications into human-readable graph catalogs that can be explored visually through a browser without requiring a dedicated graph database or enterprise catalog platform.</p>
+
+<p>The Graph Explorer concept is intended to demonstrate how ODPG files can serve as portable relationship intelligence structures that support governance review, strategic planning, semantic exploration, AI-agent traversal, and operational dependency analysis through standard graph visualization techniques.</p>
+
+<p>A Graph Explorer implementation typically performs the following sequence of operations:</p>
+
+<p>Reads the ODPG YAML file.
+Validates the graph structure against the ODPG schema.
+Extracts graph nodes and graph edges.
+Converts the graph into a visualization-friendly structure.
+Generates an interactive HTML page capable of displaying graph relationships.
+Enables users to inspect node metadata, edge relationships, confidence levels, and referenced specifications.</p>
+
+<p>The Graph Explorer may display:</p>
+
+<ul>
+<li>Data Products</li>
+<li>Use Cases</li>
+<li>Business Objectives</li>
+<li>KPIs</li>
+<li>Policies</li>
+<li>APIs</li>
+<li>Workflows</li>
+<li>Agents</li>
+<li>Strategic Opportunities</li>
+</ul>
+
+<p>as graph nodes, while relationships such as:</p>
+
+<ul>
+<li>uses</li>
+<li>supports</li>
+<li>contributes_to</li>
+<li>governed_by</li>
+<li>tracks</li>
+<li>exposes</li>
+<li>identifies</li>
+</ul>
+
+<p>can be rendered as directional graph edges.</p>
+<h2 id='python-graph-explorer-generator'>Python Graph Explorer Generator</h2>
+<p>A lightweight Python utility can be used to transform an ODPG YAML document into a standalone HTML Graph Explorer.</p>
+
+<p>The purpose of the script is not to redefine the ODPG structure, but rather to consume the existing specification and render it visually.</p>
+
+<p>The script should:</p>
+
+<ul>
+<li>read the ODPG YAML file</li>
+<li>validate required graph properties</li>
+<li>validate node and edge integrity</li>
+<li>transform graph entities into visualization structures</li>
+<li>generate an HTML explorer</li>
+<li>render the graph interactively in a browser</li>
+</ul>
+
+<p>The script should use the standard ODPG structure exactly as defined in this specification.</p>
+
+<blockquote>
+<p>Example graph input:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">schema</span><span class="pi">:</span> <span class="s">https://opendataproducts.org/odpg-v1.0/schema/graph.yaml</span>
+<span class="na">version</span><span class="pi">:</span> <span class="m">1.0</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">DataProductGraph</span>
+<span class="na">id</span><span class="pi">:</span> <span class="s">GRAPH-AVIATION-001</span>
+<span class="na">name</span><span class="pi">:</span>
+  <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation Data Product Value Graph</span>
+
+<span class="na">nodes</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">UC-AVIATION-001</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">UseCase</span>
+    <span class="s">$ref</span><span class="pi">:</span> <span class="s">../usecases/predictive-maintenance-aircraft.yaml</span>
+
+<span class="na">edges</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">from</span><span class="pi">:</span> <span class="s">UC-AVIATION-001</span>
+    <span class="na">to</span><span class="pi">:</span> <span class="s">DP-AVIATION-001</span>
+    <span class="na">type</span><span class="pi">:</span> <span class="s">uses</span>
+    <span class="na">confidence</span><span class="pi">:</span> <span class="s">high</span>
+</code></pre></div><h2 id='required-dependencies-amp-execution'>Required Dependencies &amp; Execution</h2>
+<p>The Python implementation requires PyYAML for parsing ODPG YAML files.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>pip install pyyaml
+generate_graph_explorer.py
+</code></pre></div>
+<table><thead>
+<tr>
+<th>Script</th>
+<th>Purpose</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/generate_graph_explorer.py"><code>generate_graph_explorer.py</code></a></td>
+<td>Transform the graph yaml file into HTML file</td>
+</tr>
+</tbody></table>
+
+<p>The script read the <strong>graph.yaml</strong> file and generates <strong>graph-explorer.html</strong> file. The resulting HTML file can then be opened directly in a browser to explore the ODPG graph visually.</p>
+<h2 id='graph-explorer-capabilities'>Graph Explorer Capabilities</h2>
+<p>A generated Graph Explorer implementation may support:</p>
+
+<ul>
+<li>node visualization</li>
+<li>edge visualization</li>
+<li>relationship labels</li>
+<li>confidence display</li>
+<li>node grouping by type</li>
+<li>graph zooming and panning</li>
+<li>graph traversal</li>
+<li>dependency inspection</li>
+<li>governance inspection</li>
+<li>AI-agent relationship visualization</li>
+<li>clickable specification references</li>
+</ul>
+
+<p>The Graph Explorer demonstrates how ODPG specifications can become both machine-readable and human-navigable while preserving interoperability with the broader Open Data Products ecosystem.</p>
 <h1 id='strategic-intelligence'>Strategic Intelligence</h1>
 <p>ODPG introduces a graph-native intelligence layer capable of connecting business objectives, operational use cases, KPIs, governance structures, data products, and AI systems into a unified strategic reasoning model that enables organizations to understand not only what assets exist, but also how those assets contribute to measurable business outcomes and organizational priorities.</p>
 
