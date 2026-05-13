@@ -1,0 +1,93 @@
+# Open Data Product Graphs (ODPG) 1.0
+
+Use this file as AI-agent guidance for reading, generating, validating, repairing, and reasoning over Open Data Product Graphs documents.
+
+## Primary Resources
+
+- Specification: https://opendataproducts.org/odpg-v1.0/
+- YAML schema: https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml
+- JSON schema: https://opendataproducts.org/odpg-v1.0/schema/odpg.json
+- Agent objects JSONL: https://opendataproducts.org/odpg-v1.0/graph/objects.jsonl
+- GitHub issues: https://github.com/Open-Data-Product-Initiative/odpg-v1.0/issues
+
+## AI Agent Guidance
+
+- Use `/schema/odpg.yaml` or `/schema/odpg.json` to validate ODPG graph files.
+- Use `/graph/objects.jsonl` for retrieval, relationship classification, traversal planning, graph reasoning, validation hints, and lightweight AI-agent tool calls.
+- Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
+- Use ODPC for catalog discovery; do not model discovery catalogs as ODPG graphs unless relationships or traversal are required.
+- Use ODPS for full data product metadata; in ODPG, reference data products as `DataProduct` nodes instead of copying full ODPS content.
+- Use ODPV when stable vocabulary terms, semantic mappings, or relationship names are needed.
+- Use `confidence` values `high`, `medium`, or `low` for edges.
+- Use `x-` prefixed extension fields only for implementation-specific metadata that does not redefine core ODPG semantics.
+- Use `nodes` for graph entities and `edges` for directed relationships between graph entities.
+- Use `ref` to point to referenced specifications, resources, or artifacts.
+- Keep ODPG graph documents lightweight; avoid embedding full external specifications inside graph nodes.
+
+## Core ODPG Shape
+
+An ODPG graph document should include:
+
+- `schema`
+- `version`
+- `kind`
+- `id`
+- `name`
+- `nodes`
+- `edges`
+
+The `kind` value should be `DataProductGraph`.
+
+## Common Node Types
+
+- `DataProduct`
+- `UseCase`
+- `BusinessObjective`
+- `KPI`
+- `Domain`
+- `Dataset`
+- `API`
+- `Policy`
+- `Workflow`
+- `Agent`
+- `Capability`
+- `StrategicOpportunity`
+
+## Common Relationship Types
+
+- `uses`
+- `supports`
+- `contributesTo`
+- `measures`
+- `tracks`
+- `dependsOn`
+- `produces`
+- `consumes`
+- `governedBy`
+- `ownedBy`
+- `alignsWith`
+- `relatedTo`
+- `impacts`
+- `derivedFrom`
+- `exposes`
+- `monitors`
+- `identifies`
+
+## Tooling Guidance
+
+- Use `/graph/objects.jsonl` as the agent-friendly one-object-per-line resource for graph retrieval and reasoning over ODPG concepts.
+- Use the Graph Validation Toolkit for schema, node, edge, reference, semantic consistency, and confidence validation.
+- Use the Graph Traversal Toolkit for path discovery, dependency traversal, governance propagation, impact analysis, semantic navigation, and strategic alignment analysis.
+- Use the Strategic Intelligence Toolkit for orphan KPI detection, strategic gap analysis, thematic clustering, opportunity inference, duplicate use case detection, and capability alignment analysis.
+- Use the AI Agent Toolkit for graph retrieval APIs, semantic context injection, governance-aware traversal, trusted relationship discovery, explainable reasoning paths, graph-based memory, objective-aware planning, policy-aware execution, dependency reasoning, and graph-native orchestration.
+- Use the Federation Toolkit for federated graph discovery, cross-domain traversal, graph synchronization, semantic mapping, distributed governance, and multi-organization graph interoperability.
+
+## Generation Rules
+
+- Prefer explicit, typed nodes over ambiguous generic nodes.
+- Prefer meaningful edge types over `relatedTo` when a more specific relationship exists.
+- Do not invent required fields beyond the official schema.
+- Do not copy ODPS data product metadata into ODPG graph nodes; use references.
+- Do not use ODPC catalog objects for relationship traversal; use ODPG nodes and edges.
+- Preserve existing IDs when repairing a graph unless a duplicate or invalid ID must be fixed.
+- Add `x-` fields only when local implementation metadata is needed.

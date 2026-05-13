@@ -1,3 +1,12 @@
+<!-- AI_AGENT_GUIDANCE:
+Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
+Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
+Use ODPC for catalog discovery; do not model discovery catalogs as ODPG graphs unless relationships or traversal are required.
+Use ODPS for full data product metadata; in ODPG, reference data products as DataProduct nodes instead of copying full ODPS content.
+Use ODPV when stable vocabulary terms, semantic mappings, or relationship names are needed.
+Use confidence values high, medium, or low for edges.
+Use x- prefixed extension fields only for implementation-specific metadata that does not redefine core ODPG semantics.
+-->
 # ODPG Toolkit
 
 The ODPG Toolkit provides a collection of interoperable tooling capabilities that support graph creation, validation, traversal, governance reasoning, semantic interoperability, strategic intelligence analysis, and AI-agent interaction across Open Data Product ecosystems.
@@ -43,6 +52,8 @@ Toolkit components describe common tooling capabilities that may be implemented 
 The ODPG Toolkit describes interoperable capabilities rather than a single required software implementation. A tool MAY implement one or more toolkit components, provided that it preserves the ODPG graph model, validates against the official schema where applicable, and does not redefine core node, edge, confidence, or reference semantics.
 
 Toolkit implementations SHOULD expose clear inputs and outputs so that graph validators, traversal engines, catalogs, governance systems, and AI-agent runtimes can interoperate consistently.
+
+ODPG MAY provide an agent-friendly JSONL resource at `/graph/objects.jsonl`. This one-object-per-line file is intended for retrieval, relationship classification, traversal planning, graph reasoning, validation hints, and lightweight AI-agent tool calls. Unlike ODPC catalog JSONL resources, which focus on discovery and object selection, the ODPG JSONL resource focuses on graph reasoning and traversal semantics.
 
 | Toolkit Component | Typical Input | Typical Output |
 | --- | --- | --- |

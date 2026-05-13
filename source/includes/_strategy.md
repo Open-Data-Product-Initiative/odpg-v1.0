@@ -1,3 +1,12 @@
+<!-- AI_AGENT_GUIDANCE:
+Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
+Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
+Use ODPC for catalog discovery; do not model discovery catalogs as ODPG graphs unless relationships or traversal are required.
+Use ODPS for full data product metadata; in ODPG, reference data products as DataProduct nodes instead of copying full ODPS content.
+Use ODPV when stable vocabulary terms, semantic mappings, or relationship names are needed.
+Use confidence values high, medium, or low for edges.
+Use x- prefixed extension fields only for implementation-specific metadata that does not redefine core ODPG semantics.
+-->
 # Strategic Intelligence
 
 ODPG introduces a graph-native intelligence layer capable of connecting business objectives, operational use cases, KPIs, governance structures, data products, and AI systems into a unified strategic reasoning model that enables organizations to understand not only what assets exist, but also how those assets contribute to measurable business outcomes and organizational priorities.

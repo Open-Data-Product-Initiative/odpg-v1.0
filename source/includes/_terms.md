@@ -1,3 +1,12 @@
+<!-- AI_AGENT_GUIDANCE:
+Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
+Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
+Use ODPC for catalog discovery; do not model discovery catalogs as ODPG graphs unless relationships or traversal are required.
+Use ODPS for full data product metadata; in ODPG, reference data products as DataProduct nodes instead of copying full ODPS content.
+Use ODPV when stable vocabulary terms, semantic mappings, or relationship names are needed.
+Use confidence values high, medium, or low for edges.
+Use x- prefixed extension fields only for implementation-specific metadata that does not redefine core ODPG semantics.
+-->
 # Terms used
 
 This project works with **[Open Data Product Graphs (ODPG) 1.0](https://opendataproducts.org/odpg-v1.0/)** documents and a small HTML generator for exploration. ODPG uses the **[Open Data Product Vocabulary (ODPV)](https://opendataproducts.org/odpv-v1.0/)** as the shared vocabulary across the OpenDataProducts.org standards family: stable identifiers, labels, definitions, aliases, and **relationship names** should stay aligned with ODPV so graphs stay interoperable with ODPS, ODPC, and other tools.
