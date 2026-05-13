@@ -6,19 +6,21 @@ A node may represent an internal resource defined directly within the organizati
 
 Instead of embedding full resource definitions directly into the graph, ODPG encourages interoperability through references using the ref property, thereby enabling organizations to connect graph structures with ODPS documents, ODPV vocabularies, governance artifacts, APIs, workflows, use cases, or external specifications.
 
+> Example of nodes object format:
+
 ```yml 
 nodes:
   - id: UC-AVIATION-001
     type: UseCase
-    ref: ../usecases/predictive-maintenance-aircraft.yaml
+    $ref: ../usecases/predictive-maintenance-aircraft.yaml
 
   - id: OBJ-AVIATION-001
     type: BusinessObjective
-    ref: ../objectives/increase-fleet-availability.yaml
+    $ref: ../objectives/increase-fleet-availability.yaml
 
   - id: DP-AVIATION-001
     type: DataProduct
-    ref: ../products/aircraft-maintenance-history.yaml
+    $ref: ../products/aircraft-maintenance-history.yaml
 ```
 
 ## Node Properties
@@ -33,11 +35,11 @@ The following properties are defined for graph nodes.
 | type	| Type of graph entity represented by the node |
 | $ref	| Path or URI to the referenced specification or resource |
 
-The id property uniquely identifies the node within the graph and allows edges to establish relationships between connected entities.
+The **id** property uniquely identifies the node within the graph and allows edges to establish relationships between connected entities.
 
-The type property identifies the category of entity represented by the node, thereby enabling graph consumers, validation systems, governance engines, AI agents, and traversal engines to interpret the role of the entity correctly.
+The **type** property identifies the category of entity represented by the node, thereby enabling graph consumers, validation systems, governance engines, AI agents, and traversal engines to interpret the role of the entity correctly.
 
-The ref property provides a path or URI reference to the underlying specification, thereby allowing ODPG to function as a lightweight relationship layer that interoperates with external specifications such as ODPS documents, governance definitions, API specifications, vocabulary definitions, use case files, or objective specifications.
+The **$ref** property provides a path or URI reference to the underlying specification, thereby allowing ODPG to function as a lightweight relationship layer that interoperates with external specifications such as ODPS documents, governance definitions, API specifications, vocabulary definitions, use case files, or objective specifications.
 
 ## Supported Node Types
 

@@ -58,6 +58,8 @@ Traditional metadata catalogs primarily focus on technical discovery, indexing, 
 
 **Open Data Product Graphs ODPG-v1.0** addresses this challenge by introducing a machine-readable graph specification that enables organizations to describe and manage the relationships between interconnected entities across the enterprise ecosystem, thereby transforming isolated specifications into connected intelligence structures capable of supporting governance reasoning, strategic alignment, semantic interoperability, AI traversal, impact analysis, and reusable data ecosystems.
 
+![Open Data Product Graphs overview diagram](/images/odpg.jpeg)
+
 Through ODPG, organizations can represent questions such as:
 
 - Which use cases depend on this data product?
