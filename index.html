@@ -350,6 +350,9 @@
               </ul>
           </li>
           <li>
+            <a href="#graph-toolkit" class="toc-h1 toc-link" data-title="Graph Toolkit">Graph Toolkit</a>
+          </li>
+          <li>
             <a href="#specification-structure" class="toc-h1 toc-link" data-title="Specification Structure">Specification Structure</a>
               <ul class="toc-list-h2">
                   <li>
@@ -482,16 +485,6 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 <td>Official source repository for the ODPG 1.0 specification</td>
 </tr>
 <tr>
-<td>ODPG YAML schema</td>
-<td><a href="https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml">YAML Schema</a></td>
-<td>Machine-readable schema definition in YAML format</td>
-</tr>
-<tr>
-<td>ODPG JSON schema</td>
-<td><a href="https://opendataproducts.org/odpg-v1.0/schema/odpg.json">JSON Schema</a></td>
-<td>Machine-readable schema definition in JSON format</td>
-</tr>
-<tr>
 <td>Contribute</td>
 <td><a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/issues">Raise an issue in GitHub</a></td>
 <td>Submit issues or suggestions to the specification maintainers</td>
@@ -569,6 +562,72 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 <li>support graph-native interoperability</li>
 <li>provide reusable relationship intelligence structures</li>
 </ul>
+<!-- AI_AGENT_GUIDANCE:
+Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
+Use /graph/objects.jsonl for retrieval, relationship classification, traversal planning, graph reasoning, validation hints, and lightweight AI-agent tool calls.
+Use /scripts/generate_graph_explorer.py to generate a standalone HTML graph explorer from ODPG YAML.
+Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
+Use ODPC for catalog discovery; do not model discovery catalogs as ODPG graphs unless relationships or traversal are required.
+Use ODPS for full data product metadata; in ODPG, reference data products as DataProduct nodes instead of copying full ODPS content.
+Use ODPV when stable vocabulary terms, semantic mappings, or relationship names are needed.
+-->
+<h1 id='graph-toolkit'>Graph Toolkit</h1>
+<blockquote>
+<p>Snippet of YAML version:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight yaml"><code><span class="na">schema</span><span class="pi">:</span> <span class="s">https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml</span>
+<span class="na">version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">1.0"</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Graph</span>
+<span class="na">graph</span><span class="pi">:</span>
+  <span class="na">metadata</span><span class="pi">:</span>
+    <span class="na">id</span><span class="pi">:</span> <span class="s">GRAPH-AVIATION-001</span>
+    <span class="na">name</span><span class="pi">:</span>
+      <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation Data Product Value Graph</span>
+    <span class="na">description</span><span class="pi">:</span>
+      <span class="na">en</span><span class="pi">:</span> <span class="s">Graph describing how aviation data products, use cases, policies,</span>
+          <span class="s">agents, opportunities, and business objectives are connected.</span>
+    <span class="na">domain</span><span class="pi">:</span>
+      <span class="na">en</span><span class="pi">:</span> <span class="s">Aviation</span>
+    <span class="na">purpose</span><span class="pi">:</span>
+      <span class="na">en</span><span class="pi">:</span> <span class="s">Support portfolio analysis, value mapping, governance review,</span>
+          <span class="s">and AI-assisted reasoning.</span>
+    <span class="na">status</span><span class="pi">:</span> <span class="s">draft</span>
+    <span class="na">visibility</span><span class="pi">:</span> <span class="s">public</span>
+  <span class="na">nodes</span><span class="pi">:</span> <span class="pi">[]</span>
+  <span class="na">edges</span><span class="pi">:</span> <span class="pi">[]</span>
+</code></pre></div>
+<p>ODPG is published in several forms for different users and tools. This specification provides the human-readable documentation, while the schema, graph object records, and generator script provide machine-readable resources for validation, graph reasoning, AI retrieval, traversal planning, and automation. Use <code>odpg.yaml</code> or <code>odpg.json</code> to validate graph files, <code>objects.jsonl</code> for lightweight relationship classification and graph retrieval, and the Graph Explorer generator when creating a visual inspection interface for ODPG YAML.</p>
+
+<table><thead>
+<tr>
+<th>Resource</th>
+<th>Format</th>
+<th>Purpose</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><a href="llms.txt"><code>llms.txt</code></a></td>
+<td>Text</td>
+<td>AI agent guidance for discovering and using ODPG resources</td>
+</tr>
+<tr>
+<td><a href="schema/odpg.yaml"><code>odpg.yaml</code></a></td>
+<td>YAML Schema</td>
+<td>YAML representation of the ODPG validation schema</td>
+</tr>
+<tr>
+<td><a href="schema/odpg.json"><code>odpg.json</code></a></td>
+<td>JSON Schema</td>
+<td>JSON representation of the ODPG validation schema</td>
+</tr>
+<tr>
+<td><a href="graph/objects.jsonl"><code>objects.jsonl</code></a></td>
+<td>JSONL</td>
+<td>Agent-friendly one-object-per-line file for retrieval, relationship classification, traversal planning, graph reasoning, and lightweight tools</td>
+</tr>
+</tbody></table>
+
+<p>The Markdown tables in this specification are intended for human readers. The schema, JSONL, and graph tooling files are intended for programmable use, automation, validation, AI retrieval, traversal, reasoning, and graph visualization.</p>
 <!-- AI_AGENT_GUIDANCE:
 Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
 Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
@@ -1034,7 +1093,9 @@ You should see `-i` / `--input` and `-o` / `--output` with their defaults.
 
 <p>The Graph Explorer demonstrates how ODPG specifications can become both machine-readable and human-navigable while preserving interoperability with the broader Open Data Products ecosystem.</p>
 
-<p><img src="images/graph_example-86e039c3.png" alt="Aviation Data Product Graph Explorer" /></p>
+<p><a href="graph/examples/graph-explorer.html"><img src="images/graph_example-86e039c3.png" alt="Aviation Data Product Graph Explorer" /></a></p>
+
+<p><a href="graph/examples/graph-explorer.html">Open the Graph Explorer example</a></p>
 <!-- AI_AGENT_GUIDANCE:
 Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
 Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
