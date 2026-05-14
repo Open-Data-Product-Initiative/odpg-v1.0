@@ -3,7 +3,7 @@
 > Example of the catalog object usage:
 
 ```yml 
-schema: https://opendataproducts.org/odpg-v1.0/schema/graph.yaml
+schema: https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml
 version: 1.0
 kind: Graph
 graph:

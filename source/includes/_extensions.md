@@ -12,9 +12,11 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 > Example of extension usage:
 
 ```yml
-schema: https://opendataproducts.org/odpg-v1.0/schema/graph.yaml
+schema: https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml
 version: 1.0
-kind: DataProductGraph
+kind: Graph
+x-internal-id: foobar123
+x-source-system: internal-graph-platform
 graph:
   metadata:
     id: GRAPH-AVIATION-001
@@ -26,21 +28,19 @@ graph:
       name: Aviation Data Product Team
       email: aviation-data-products@example.com
       x-team-id: TEAM-042
-x-internal-id: foobar123
-x-source-system: internal-graph-platform
 
-nodes:
-  - id: DP-AVIATION-001
-    type: DataProduct
-    $ref: ../products/aircraft-maintenance-history.yaml
-    x-lineage-system-id: lin-987
+  nodes:
+    - id: DP-AVIATION-001
+      type: DataProduct
+      $ref: ../products/aircraft-maintenance-history.yaml
+      x-lineage-system-id: lin-987
 
-edges:
-  - from: DP-AVIATION-001
-    to: OBJ-AVIATION-001
-    type: contributesTo
-    confidence: medium
-    x-evidence-url: https://example.com/evidence/graph-aviation-001
+  edges:
+    - from: DP-AVIATION-001
+      to: OBJ-AVIATION-001
+      type: contributesTo
+      confidence: medium
+      x-evidence-url: https://example.com/evidence/graph-aviation-001
 ```
 
 While the Open Data Product Graphs Specification defines the core graph objects and attributes, organizations may need to add implementation-specific metadata for local tools, internal workflows, or platform-specific requirements.

@@ -1,11 +1,13 @@
 {"objectType":"GraphSpec","id":"ODPG-1.0","name":"Open Data Product Graphs","version":"1.0","purpose":"Graph reasoning, traversal, governance propagation, strategic intelligence, and AI-agent interaction across Open Data Product ecosystems.","schema":{"yaml":"/schema/odpg.yaml","json":"/schema/odpg.json"}}
 {"objectType":"GraphField","id":"schema","required":true,"type":"uri","description":"URL of the ODPG schema used for validation."}
 {"objectType":"GraphField","id":"version","required":true,"type":"string or number","description":"Version of the ODPG specification."}
-{"objectType":"GraphField","id":"kind","required":true,"type":"string","description":"Type of graph specification document. Use DataProductGraph."}
-{"objectType":"GraphField","id":"id","required":true,"type":"string","description":"Unique identifier of the graph."}
-{"objectType":"GraphField","id":"name","required":true,"type":"localized object","description":"Human-readable graph name using language-specific values."}
-{"objectType":"GraphField","id":"nodes","required":true,"type":"array","description":"Collection of graph nodes."}
-{"objectType":"GraphField","id":"edges","required":true,"type":"array","description":"Collection of directed graph relationships."}
+{"objectType":"GraphField","id":"kind","required":true,"type":"string","description":"Type of graph specification document. Use Graph."}
+{"objectType":"GraphField","id":"graph","required":true,"type":"object","description":"Container for graph metadata, nodes, and edges."}
+{"objectType":"GraphMetadataField","id":"graph.metadata.id","required":true,"type":"string","description":"Unique identifier of the graph."}
+{"objectType":"GraphMetadataField","id":"graph.metadata.name","required":true,"type":"localized object","description":"Human-readable graph name using language-specific values."}
+{"objectType":"GraphMetadataField","id":"graph.metadata.description","required":true,"type":"localized object","description":"Human-readable graph description using language-specific values."}
+{"objectType":"GraphField","id":"graph.nodes","required":true,"type":"array of node objects","description":"Collection of graph node objects."}
+{"objectType":"GraphField","id":"graph.edges","required":true,"type":"array of edge objects","description":"Collection of directed graph edge objects."}
 {"objectType":"NodeField","id":"node.id","required":true,"type":"string","description":"Unique identifier of the node."}
 {"objectType":"NodeField","id":"node.type","required":true,"type":"string","description":"Type of graph entity represented by the node."}
 {"objectType":"NodeField","id":"node.$ref","required":true,"type":"string","description":"Path or URI to the referenced specification or resource."}

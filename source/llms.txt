@@ -20,7 +20,7 @@ Use this file as AI-agent guidance for reading, generating, validating, repairin
 - Use ODPV when stable vocabulary terms, semantic mappings, or relationship names are needed.
 - Use `confidence` values `high`, `medium`, or `low` for edges.
 - Use `x-` prefixed extension fields only for implementation-specific metadata that does not redefine core ODPG semantics.
-- Use `nodes` for graph entities and `edges` for directed relationships between graph entities.
+- Use `graph.nodes` as an array of node objects and `graph.edges` as an array of edge objects.
 - Use `ref` to point to referenced specifications, resources, or artifacts.
 - Keep ODPG graph documents lightweight; avoid embedding full external specifications inside graph nodes.
 
@@ -31,12 +31,14 @@ An ODPG graph document should include:
 - `schema`
 - `version`
 - `kind`
-- `id`
-- `name`
-- `nodes`
-- `edges`
+- `graph`
+- `graph.metadata.id`
+- `graph.metadata.name`
+- `graph.metadata.description`
+- `graph.nodes`
+- `graph.edges`
 
-The `kind` value should be `DataProductGraph`.
+The `kind` value should be `Graph`.
 
 ## Common Node Types
 

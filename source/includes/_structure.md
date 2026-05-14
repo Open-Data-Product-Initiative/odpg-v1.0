@@ -12,7 +12,7 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 > Example of details object usage:
 
 ```yml
-schema: https://opendataproducts.org/odpg-v1.0/schema/graph.yaml
+schema: https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml
 version: 1.0
 kind: Graph
 graph:
@@ -46,15 +46,15 @@ The following root properties are defined within an ODPG document.
 | `metadata.name.en` | String | Yes |  English name of the graph.  |
 | `metadata.description` | Object | Yes | Human-readable graph description using language-specific values |
 | `metadata.description.en` | String | Yes | English description of the graph. |
-| `nodes` | Array | Yes | Collection of graph nodes |
-| `edges` | Array | Yes | Collection of graph edges |
+| `nodes` | Array of node objects | Yes | Collection of graph node objects |
+| `edges` | Array of edge objects | Yes | Collection of graph edge objects |
 
 ## Optional attributes and options
 
 > Example of catalog metadata usage:
 
 ```yml
-schema: https://opendataproducts.org/odpg-v1.0/schema/graph.yaml
+schema: https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml
 version: 1.0
 kind: Graph
 graph:

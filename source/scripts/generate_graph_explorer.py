@@ -113,7 +113,7 @@ def validate_graph(graph):
         if field not in graph:
             raise ValueError(f"Missing required root field: {field}")
 
-    if graph["kind"] not in ("Graph", "DataProductGraph"):
+    if graph["kind"] != "Graph":
         raise ValueError("Invalid kind. Expected: Graph")
 
     payload = _graph_payload(graph)
@@ -898,8 +898,8 @@ def build_html(graph: dict) -> str:
         <nav class="odpg-footer-resources" aria-label="ODPG 1.0 specification, schemas, and contribution">
           <h3>Specification &amp; schemas</h3>
           <a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0" target="_blank" rel="noopener noreferrer" title="Official source repository for the ODPG 1.0 specification">Open Data Product Graphs 1.0 on GitHub</a>
-          <a href="https://opendataproducts.org/odpg-v1.0/schema/graph.yaml" target="_blank" rel="noopener noreferrer" title="Machine-readable schema definition in YAML format">ODPG YAML Schema</a>
-          <a href="https://opendataproducts.org/odpg-v1.0/schema/graph.json" target="_blank" rel="noopener noreferrer" title="Machine-readable schema definition in JSON format">ODPG JSON Schema</a>
+          <a href="https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml" target="_blank" rel="noopener noreferrer" title="Machine-readable schema definition in YAML format">ODPG YAML Schema</a>
+          <a href="https://opendataproducts.org/odpg-v1.0/schema/odpg.json" target="_blank" rel="noopener noreferrer" title="Machine-readable schema definition in JSON format">ODPG JSON Schema</a>
           <a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/issues" target="_blank" rel="noopener noreferrer" title="Submit issues or suggestions to the specification maintainers">Raise an issue in GitHub</a>
         </nav>
       </footer>
