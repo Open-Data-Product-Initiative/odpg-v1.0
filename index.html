@@ -351,6 +351,11 @@
           </li>
           <li>
             <a href="#graph-toolkit" class="toc-h1 toc-link" data-title="Graph Toolkit">Graph Toolkit</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#python-toolkit-scripts" class="toc-h2 toc-link" data-title="Python Toolkit Scripts">Python Toolkit Scripts</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#specification-structure" class="toc-h1 toc-link" data-title="Specification Structure">Specification Structure</a>
@@ -565,6 +570,11 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 <!-- AI_AGENT_GUIDANCE:
 Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
 Use /graph/objects.jsonl for retrieval, relationship classification, traversal planning, graph reasoning, validation hints, and lightweight AI-agent tool calls.
+Use /scripts/odpg_validate.py for graph validation.
+Use /scripts/odpg_summary.py for graph summaries.
+Use /scripts/odpg_traverse.py for graph traversal.
+Use /scripts/odpg_analyze.py for governance and strategic analysis.
+Use /scripts/odpg_agent_context.py for AI-agent context extraction.
 Use /scripts/generate_graph_explorer.py to generate a standalone HTML graph explorer from ODPG YAML.
 Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
 Use ODPC for catalog discovery; do not model discovery catalogs as ODPG graphs unless relationships or traversal are required.
@@ -596,7 +606,7 @@ Use ODPV when stable vocabulary terms, semantic mappings, or relationship names 
   <span class="na">nodes</span><span class="pi">:</span> <span class="pi">[]</span>
   <span class="na">edges</span><span class="pi">:</span> <span class="pi">[]</span>
 </code></pre></div>
-<p>ODPG is published in several forms for different users and tools. This specification provides the human-readable documentation, while the schema, graph object records, and generator script provide machine-readable resources for validation, graph reasoning, AI retrieval, traversal planning, and automation. Use <code>odpg.yaml</code> or <code>odpg.json</code> to validate graph files, <code>objects.jsonl</code> for lightweight relationship classification and graph retrieval, and the Graph Explorer generator when creating a visual inspection interface for ODPG YAML.</p>
+<p>ODPG is published in several forms for different users and tools. This specification provides the human-readable documentation, while the schema, graph object records, and Python scripts provide machine-readable resources for validation, graph reasoning, AI retrieval, traversal planning, strategic analysis, automation, and visualization. Use <code>odpg.yaml</code> or <code>odpg.json</code> to validate graph files, <code>objects.jsonl</code> for lightweight relationship classification and graph retrieval, the ODPG Python scripts for command-line graph validation and reasoning tasks, and the Graph Explorer generator when creating a visual inspection interface for ODPG YAML.</p>
 
 <table><thead>
 <tr>
@@ -625,10 +635,87 @@ Use ODPV when stable vocabulary terms, semantic mappings, or relationship names 
 <td>JSONL</td>
 <td>Agent-friendly one-object-per-line file for retrieval, relationship classification, traversal planning, graph reasoning, and lightweight tools</td>
 </tr>
+<tr>
+<td><a href="scripts/odpg_validate.py"><code>odpg_validate.py</code></a></td>
+<td>Python</td>
+<td>Validates graph structure, node integrity, edge integrity, confidence values, and core ODPG semantics</td>
+</tr>
+<tr>
+<td><a href="scripts/odpg_summary.py"><code>odpg_summary.py</code></a></td>
+<td>Python</td>
+<td>Produces graph metadata, node counts, edge counts, node types, edge types, and confidence summaries</td>
+</tr>
+<tr>
+<td><a href="scripts/odpg_traverse.py"><code>odpg_traverse.py</code></a></td>
+<td>Python</td>
+<td>Discovers relationship paths from a node with optional relationship filters and reverse traversal</td>
+</tr>
+<tr>
+<td><a href="scripts/odpg_analyze.py"><code>odpg_analyze.py</code></a></td>
+<td>Python</td>
+<td>Runs governance and strategic checks for orphan KPIs, unsupported objectives, ungoverned assets, and low-confidence relationships</td>
+</tr>
+<tr>
+<td><a href="scripts/odpg_agent_context.py"><code>odpg_agent_context.py</code></a></td>
+<td>Python</td>
+<td>Extracts trusted graph context around a focus node for AI-agent use</td>
+</tr>
+<tr>
+<td><a href="scripts/generate_graph_explorer.py"><code>generate_graph_explorer.py</code></a></td>
+<td>Python</td>
+<td>Generates a standalone HTML Graph Explorer from an ODPG YAML graph</td>
+</tr>
 </tbody></table>
 
-<p>The Markdown tables in this specification are intended for human readers. The schema, JSONL, and graph tooling files are intended for programmable use, automation, validation, AI retrieval, traversal, reasoning, and graph visualization.</p>
-<!-- AI_AGENT_GUIDANCE:
+<p>The Markdown tables in this specification are intended for human readers. The schema, JSONL, and graph tooling files are intended for programmable use, automation, validation, AI retrieval, traversal, reasoning, strategic analysis, AI-agent interaction, and graph visualization.</p>
+<h2 id='python-toolkit-scripts'>Python Toolkit Scripts</h2>
+<p>The ODPG Python toolkit separates the most important command-line operations into focused scripts while sharing the same internal graph rules through <code>odpg_toolkit_core.py</code>:</p>
+
+<table><thead>
+<tr>
+<th>Script</th>
+<th>Toolkit Coverage</th>
+<th>Purpose</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>odpg_validate.py</code></td>
+<td>Graph Validation Toolkit</td>
+<td>Validate graph structure, required fields, node integrity, edge integrity, confidence values, and core ODPG semantics</td>
+</tr>
+<tr>
+<td><code>odpg_summary.py</code></td>
+<td>Graph Validation Toolkit / AI Agent Toolkit</td>
+<td>Produce a JSON summary of metadata, node counts, edge counts, node types, edge types, and confidence values</td>
+</tr>
+<tr>
+<td><code>odpg_traverse.py</code></td>
+<td>Graph Traversal Toolkit</td>
+<td>Discover relationship paths from a node, optionally filtering by relationship type or traversing incoming relationships</td>
+</tr>
+<tr>
+<td><code>odpg_analyze.py</code></td>
+<td>Strategic Intelligence Toolkit / Governance analysis</td>
+<td>Detect orphan KPIs, unsupported objectives, ungoverned assets, low-confidence relationships, and use cases without strategic contribution</td>
+</tr>
+<tr>
+<td><code>odpg_agent_context.py</code></td>
+<td>AI Agent Toolkit</td>
+<td>Extract trusted graph context around a focus node, including forward paths, reverse paths, related nodes, and governance signals</td>
+</tr>
+</tbody></table>
+
+<p>Example usage:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>python source/scripts/odpg_validate.py -i "/path/to/graph.yml"
+python source/scripts/odpg_summary.py -i "/path/to/graph.yml"
+python source/scripts/odpg_traverse.py -i "/path/to/graph.yml" --start "DP-001" --depth 2
+python source/scripts/odpg_analyze.py -i "/path/to/graph.yml"
+python source/scripts/odpg_agent_context.py -i "/path/to/graph.yml" --node "AGENT-001" --depth 2
+</code></pre></div><h3 id='testing-the-python-toolkit'>Testing the Python Toolkit</h3>
+<p>The repository includes pytest coverage for the shared toolkit logic used by all five scripts. The tests verify graph validation, invalid edge handling, graph summaries, traversal paths, strategic and governance analysis, agent-context extraction, and JSON output writing.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>python -m pip install -r requirements-dev.txt
+python -m pytest tests/test_odpg_toolkit.py
+</code></pre></div><!-- AI_AGENT_GUIDANCE:
 Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
 Use ODPG for graph relationships, nodes, edges, traversal, governance propagation, strategic reasoning, and relationship semantics.
 Use ODPC for catalog discovery; do not model discovery catalogs as ODPG graphs unless relationships or traversal are required.
@@ -1046,12 +1133,32 @@ You should see `-i` / `--input` and `-o` / `--output` with their defaults.
 </tr>
 </thead><tbody>
 <tr>
+<td><a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_validate.py"><code>odpg_validate.py</code></a></td>
+<td>Validate graph structure, node integrity, edge integrity, confidence values, and core ODPG semantics</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_summary.py"><code>odpg_summary.py</code></a></td>
+<td>Summarize graph metadata, node counts, edge counts, node types, edge types, and confidence values</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_traverse.py"><code>odpg_traverse.py</code></a></td>
+<td>Discover relationship paths from a node</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_analyze.py"><code>odpg_analyze.py</code></a></td>
+<td>Run strategic and governance checks</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_agent_context.py"><code>odpg_agent_context.py</code></a></td>
+<td>Extract trusted graph context for AI-agent use</td>
+</tr>
+<tr>
 <td><a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/generate_graph_explorer.py"><code>generate_graph_explorer.py</code></a></td>
 <td>Transform the graph yaml file into HTML file</td>
 </tr>
 </tbody></table>
 
-<p>The script read the <strong>graph.yaml</strong> file and generates <strong>graph-explorer.html</strong> file. The resulting HTML file can then be opened directly in a browser to explore the ODPG graph visually.</p>
+<p>The toolkit scripts support command-line checks and graph reasoning tasks, while the explorer script reads the <strong>graph.yaml</strong> file and generates <strong>graph-explorer.html</strong> file. The resulting HTML file can then be opened directly in a browser to explore the ODPG graph visually.</p>
 <h3 id='quick-reference'>Quick reference</h3>
 <table><thead>
 <tr>
@@ -1650,6 +1757,8 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 <td>Federated graph view or cross-domain mappings</td>
 </tr>
 </tbody></table>
+
+<p>ODPG provides focused Python command-line scripts for the most important toolkit capabilities: <code>odpg_validate.py</code>, <code>odpg_summary.py</code>, <code>odpg_traverse.py</code>, <code>odpg_analyze.py</code>, and <code>odpg_agent_context.py</code>. The scripts share common graph logic through <code>odpg_toolkit_core.py</code> so validation, traversal, governance analysis, and AI-agent context extraction remain consistent.</p>
 <h3 id='graph-validation-toolkit'>Graph Validation Toolkit</h3>
 <p>The Graph Validation Toolkit validates ODPG documents against the official schema and verifies structural consistency, node integrity, edge validity, confidence values, and interoperability requirements.</p>
 
@@ -2007,6 +2116,30 @@ Use x- prefixed extension fields only for implementation-specific metadata that 
 <tr>
 <td><code>generate_graph_explorer.py</code></td>
 <td>Offline generator: reads graph YAML, validates core fields, emits <code>graph-explorer.html</code> for browser viewing.</td>
+</tr>
+<tr>
+<td><code>odpg_toolkit_core.py</code></td>
+<td>Shared Python module used by the ODPG toolkit scripts for loading, validating, summarizing, traversing, analyzing, and extracting graph context.</td>
+</tr>
+<tr>
+<td><code>odpg_validate.py</code></td>
+<td>Python validation script for graph files.</td>
+</tr>
+<tr>
+<td><code>odpg_summary.py</code></td>
+<td>Python summary script for graph structure and relationship counts.</td>
+</tr>
+<tr>
+<td><code>odpg_traverse.py</code></td>
+<td>Python traversal script for relationship paths.</td>
+</tr>
+<tr>
+<td><code>odpg_analyze.py</code></td>
+<td>Python analysis script for strategic and governance checks.</td>
+</tr>
+<tr>
+<td><code>odpg_agent_context.py</code></td>
+<td>Python context script for AI-agent graph retrieval.</td>
 </tr>
 <tr>
 <td><code>graph-explorer.html</code></td>
