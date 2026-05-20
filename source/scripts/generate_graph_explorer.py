@@ -17,8 +17,8 @@ ODPG_CORE_EDGE_TYPES_ORDERED: tuple[str, ...] = (
     "measures",
     "tracks",
     "dependsOn",
-    "produces",
-    "consumes",
+    "produce",
+    "Consumes",
     "governedBy",
     "ownedBy",
     "alignsWith",
@@ -38,8 +38,8 @@ ODPG_EDGE_DESCRIPTIONS: dict[str, str] = {
     "measures": "A KPI measures an objective or outcome",
     "tracks": "A node tracks or provides KPI-related information",
     "dependsOn": "A node depends on another node",
-    "produces": "A node produces data, outputs, or services",
-    "consumes": "A node consumes data, APIs, or outputs",
+    "produce": "A node produces data, outputs, or services",
+    "Consumes": "A node consumes data, APIs, or outputs",
     "governedBy": "A node is governed by a policy or control",
     "ownedBy": "A node is owned by a person, team, or domain",
     "alignsWith": "A node aligns strategically or semantically with another node",
@@ -63,7 +63,7 @@ _ODPG_LEGEND_COLOR_BY_LOWER: dict[str, str] = {
     "measures": "#0d9488",
     "tracks": "#14b8a6",
     "dependson": "#6366f1",
-    "produces": "#059669",
+    "produce": "#059669",
     "consumes": "#a855f7",
     "governedby": "#db2777",
     "ownedby": "#ca8a04",
@@ -113,7 +113,7 @@ def validate_graph(graph):
         if field not in graph:
             raise ValueError(f"Missing required root field: {field}")
 
-    if graph["kind"] != "Graph":
+    if graph["kind"] not in ("Graph", "DataProductGraph"):
         raise ValueError("Invalid kind. Expected: Graph")
 
     payload = _graph_payload(graph)
@@ -258,6 +258,8 @@ def build_html(graph: dict) -> str:
     payload = _graph_payload(graph)
     metadata = _graph_metadata(graph)
     relationship_types = collect_relationship_types(graph)
+    node_types = sorted({str(node.get("type", "")) for node in payload["nodes"] if node.get("type")})
+    confidence_levels = sorted({str(edge.get("confidence", "")) for edge in payload["edges"] if edge.get("confidence")})
     odpg_supported_ordered_json = json.dumps(list(ODPG_CORE_EDGE_TYPES_ORDERED), ensure_ascii=False)
     odpg_descriptions_json = json.dumps(ODPG_EDGE_DESCRIPTIONS_LOWER, ensure_ascii=False)
     graph_title = metadata.get("name", {}).get("en", metadata.get("id", "ODPG Graph Explorer"))
@@ -284,15 +286,17 @@ def build_html(graph: dict) -> str:
         )
 
     vis_edges = []
-    for edge in payload["edges"]:
+    for idx, edge in enumerate(payload["edges"]):
         display = _edge_relationship_label(edge)
         conf = str(edge["confidence"]).lower()
         ec = _edge_legend_color(display)
         vis_edges.append(
             {
+                "id": f"edge-{idx}",
                 "from": edge["from"],
                 "to": edge["to"],
                 "label": f"{display}\n({conf})",
+                "type": display,
                 "title": _edge_vis_tooltip(edge, display),
                 "arrows": "to",
                 "confidence": edge["confidence"],
@@ -379,6 +383,111 @@ def build_html(graph: dict) -> str:
     .topbar-center {{
       text-align: center;
       min-width: 0;
+    }}
+
+    .topbar-search {{
+      position: relative;
+      min-width: 220px;
+      max-width: 460px;
+      width: 100%;
+      justify-self: center;
+    }}
+
+    .topbar-search input {{
+      width: 100%;
+      height: 36px;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 8px;
+      padding: 0 12px 0 36px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+    }}
+
+    .topbar-search input::placeholder {{
+      color: rgba(255, 255, 255, 0.76);
+    }}
+
+    .topbar-search input:focus {{
+      background: #ffffff;
+      color: #0f172a;
+      border-color: #bfdbfe;
+      box-shadow: 0 0 0 3px rgba(191, 219, 254, 0.22);
+    }}
+
+    .topbar-search svg {{
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.82);
+      pointer-events: none;
+    }}
+
+    .topbar-search:focus-within svg {{
+      color: #64748b;
+    }}
+
+    .search-results {{
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: none;
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 6px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+    }}
+
+    .search-result {{
+      display: grid;
+      grid-template-columns: 10px 1fr;
+      gap: 9px;
+      align-items: center;
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: #0f172a;
+      text-align: left;
+      cursor: pointer;
+    }}
+
+    .search-result:hover,
+    .search-result.is-active {{
+      background: #f1f5f9;
+    }}
+
+    .search-result-dot {{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }}
+
+    .search-result strong {{
+      display: block;
+      font-size: 12px;
+      line-height: 1.25;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }}
+
+    .search-result span {{
+      display: block;
+      margin-top: 2px;
+      font-size: 11px;
+      color: #64748b;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }}
 
     .topbar-graph-title {{
@@ -736,6 +845,126 @@ def build_html(graph: dict) -> str:
       background: #f8fafc;
     }}
 
+    .filter-panel {{
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: min(44vh, 430px);
+      overflow-y: auto;
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+    }}
+
+    .filter-head {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }}
+
+    .filter-head h2 {{
+      margin: 0;
+      font-size: 13px;
+      font-weight: 800;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }}
+
+    .filter-actions {{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }}
+
+    .filter-reset {{
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #f8fafc;
+      color: #334155;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 9px;
+    }}
+
+    .filter-reset:hover {{
+      background: #eef2f7;
+    }}
+
+    .filter-status {{
+      margin: -5px 0 0;
+      font-size: 12px;
+      color: #64748b;
+    }}
+
+    .filter-group h3 {{
+      margin: 0 0 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }}
+
+    .filter-options {{
+      display: grid;
+      gap: 6px;
+    }}
+
+    .filter-option {{
+      display: grid;
+      grid-template-columns: 16px 12px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      color: #1e293b;
+      cursor: pointer;
+      font-size: 12px;
+      user-select: none;
+    }}
+
+    .filter-option:hover {{
+      background: #f8fafc;
+    }}
+
+    .filter-option.is-muted {{
+      opacity: 0.45;
+    }}
+
+    .filter-option input {{
+      width: 14px;
+      height: 14px;
+      margin: 0;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }}
+
+    .filter-swatch {{
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.18);
+    }}
+
+    .filter-label {{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 600;
+    }}
+
+    .filter-count {{
+      color: #64748b;
+      font-size: 11px;
+      font-weight: 700;
+    }}
+
     .inspector-panel {{
       flex: 1;
       overflow-y: auto;
@@ -809,16 +1038,16 @@ def build_html(graph: dict) -> str:
 </head>
 <body>
   <header class="topbar">
-    <div class="topbar-brand"><img src="https://opendataproducts.org/odpg-v1.0/images/odpg-white-5309733b.png" alt="ODPG Logo" width="100"></div>
+    <div class="topbar-brand"><img src="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/source/images/odpg-white.png?raw=true" alt="ODPG Logo" width="100"></div>
     <div class="topbar-center">
-      <span class="topbar-graph-title">{html.escape(graph_title)}</span>
-      <span class="topbar-graph-meta">{html.escape(graph_meta)}</span>
+      <div class="topbar-search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="node-search" type="search" placeholder="Search nodes in {html.escape(graph_title)}" autocomplete="off" aria-label="Search graph nodes">
+        <div id="search-results" class="search-results" role="listbox" aria-label="Node search results"></div>
+      </div>
     </div>
-    <div class="topbar-actions" aria-hidden="true">
-      <button type="button" class="icon-btn" title="Search (placeholder)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      </button>
-      <button type="button" class="icon-btn" title="Fit graph">
+    <div class="topbar-actions">
+      <button type="button" class="icon-btn" title="Fit graph" id="btn-fit-top">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
       </button>
       <button type="button" class="icon-btn" title="Fullscreen" id="btn-fullscreen">
@@ -858,6 +1087,28 @@ def build_html(graph: dict) -> str:
         <p class="panel-placeholder" id="edge-placeholder">Select an edge to see relationship type and confidence.</p>
         <div id="edge-detail" style="display:none"></div>
       </div>
+      <section class="filter-panel" aria-label="Graph filters">
+        <div class="filter-head">
+          <h2>Filters</h2>
+          <div class="filter-actions">
+            <button type="button" id="btn-toggle-filters" class="filter-reset">Deselect all</button>
+            <button type="button" id="btn-reset-filters" class="filter-reset">Reset</button>
+          </div>
+        </div>
+        <p id="filter-status" class="filter-status"></p>
+        <div class="filter-group">
+          <h3>Node types</h3>
+          <div id="filter-node-types" class="filter-options"></div>
+        </div>
+        <div class="filter-group">
+          <h3>Relationship types</h3>
+          <div id="filter-edge-types" class="filter-options"></div>
+        </div>
+        <div class="filter-group">
+          <h3>Confidence</h3>
+          <div id="filter-confidence" class="filter-options"></div>
+        </div>
+      </section>
     </aside>
     </div>
 
@@ -898,8 +1149,8 @@ def build_html(graph: dict) -> str:
         <nav class="odpg-footer-resources" aria-label="ODPG 1.0 specification, schemas, and contribution">
           <h3>Specification &amp; schemas</h3>
           <a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0" target="_blank" rel="noopener noreferrer" title="Official source repository for the ODPG 1.0 specification">Open Data Product Graphs 1.0 on GitHub</a>
-          <a href="https://opendataproducts.org/odpg-v1.0/schema/odpg.yaml" target="_blank" rel="noopener noreferrer" title="Machine-readable schema definition in YAML format">ODPG YAML Schema</a>
-          <a href="https://opendataproducts.org/odpg-v1.0/schema/odpg.json" target="_blank" rel="noopener noreferrer" title="Machine-readable schema definition in JSON format">ODPG JSON Schema</a>
+          <a href="https://opendataproducts.org/odpg-v1.0/schema/graph.yaml" target="_blank" rel="noopener noreferrer" title="Machine-readable schema definition in YAML format">ODPG YAML Schema</a>
+          <a href="https://opendataproducts.org/odpg-v1.0/schema/graph.json" target="_blank" rel="noopener noreferrer" title="Machine-readable schema definition in JSON format">ODPG JSON Schema</a>
           <a href="https://github.com/Open-Data-Product-Initiative/odpg-v1.0/issues" target="_blank" rel="noopener noreferrer" title="Submit issues or suggestions to the specification maintainers">Raise an issue in GitHub</a>
         </nav>
       </footer>
@@ -922,7 +1173,9 @@ def build_html(graph: dict) -> str:
       KPI: "#0d9488"
     }};
 
+    const NODE_TYPES = {json.dumps(node_types, ensure_ascii=False)};
     const RELATIONSHIP_TYPES = {json.dumps(relationship_types)};
+    const CONFIDENCE_LEVELS = {json.dumps(confidence_levels, ensure_ascii=False)};
     const ODPG_SUPPORTED_EDGE_TYPES_ORDERED = {odpg_supported_ordered_json};
     const ODPG_EDGE_TYPE_DESCRIPTIONS = {odpg_descriptions_json};
 
@@ -1019,6 +1272,421 @@ def build_html(graph: dict) -> str:
     const network = new vis.Network(container, data, options);
     let minimapNetwork = null;
     let physicsUserOn = false;
+    let selectedFocusNodeId = null;
+
+    const activeNodeTypes = new Set(NODE_TYPES);
+    const activeEdgeTypes = new Set(RELATIONSHIP_TYPES);
+    const activeConfidenceLevels = new Set(CONFIDENCE_LEVELS);
+
+    function valueCounts(items, key) {{
+      return items.reduce(function (acc, item) {{
+        const value = String(item[key] || "");
+        if (value) acc[value] = (acc[value] || 0) + 1;
+        return acc;
+      }}, {{}});
+    }}
+
+    const nodeTypeCounts = valueCounts(nodes.get(), "type");
+    const edgeTypeCounts = valueCounts(edges.get(), "type");
+    const confidenceCounts = valueCounts(edges.get(), "confidence");
+
+    function rgba(hex, alpha) {{
+      const clean = String(hex || "#64748b").replace("#", "");
+      const bigint = parseInt(clean.length === 3
+        ? clean.split("").map(function (ch) {{ return ch + ch; }}).join("")
+        : clean, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
+    }}
+
+    function nodeVisual(node, state) {{
+      const border = TYPE_COLORS[node.type] || "#64748b";
+      if (state === "muted") {{
+        return {{
+          id: node.id,
+          color: {{
+            background: "rgba(248,250,252,0.48)",
+            border: rgba(border, 0.24),
+            highlight: {{ background: "rgba(248,250,252,0.58)", border: rgba(border, 0.42) }},
+            hover: {{ background: "rgba(248,250,252,0.58)", border: rgba(border, 0.42) }}
+          }},
+          font: {{ color: "rgba(100,116,139,0.42)" }},
+          shadow: false,
+          borderWidth: 1
+        }};
+      }}
+      if (state === "selected") {{
+        return {{
+          id: node.id,
+          color: {{
+            background: "#ffffff",
+            border: "#0f172a",
+            highlight: {{ background: "#ffffff", border: "#0f172a" }},
+            hover: {{ background: "#ffffff", border: "#0f172a" }}
+          }},
+          font: {{ color: "#0f172a" }},
+          shadow: {{ enabled: true, color: "rgba(15,23,42,0.18)", size: 16, x: 0, y: 4 }},
+          borderWidth: 3
+        }};
+      }}
+      return {{
+        id: node.id,
+        color: {{
+          background: "#ffffff",
+          border: border,
+          highlight: {{ background: "#ffffff", border: border }},
+          hover: {{ background: "#ffffff", border: border }}
+        }},
+        font: {{ color: "#0f172a" }},
+        shadow: {{ enabled: true, color: "rgba(15,23,42,0.1)", size: 10, x: 0, y: 3 }},
+        borderWidth: 2
+      }};
+    }}
+
+    function edgeVisual(edge, state) {{
+      const color = edgeColor(edge.type);
+      if (state === "muted") {{
+        return {{
+          id: edge.id,
+          color: {{
+            color: rgba(color, 0.16),
+            highlight: rgba(color, 0.24),
+            hover: rgba(color, 0.24),
+            inherit: false
+          }},
+          font: {{ color: "rgba(100,116,139,0.28)", background: "rgba(255,255,255,0.55)" }},
+          width: 0.75
+        }};
+      }}
+      if (state === "selected") {{
+        return {{
+          id: edge.id,
+          color: {{ color: color, highlight: color, hover: color, inherit: false }},
+          font: {{ color: "#0f172a", background: "rgba(255,255,255,0.96)" }},
+          width: 2.25
+        }};
+      }}
+      return {{
+        id: edge.id,
+        color: {{ color: color, highlight: color, hover: color, inherit: false }},
+        font: {{ color: "#334155", background: "rgba(255,255,255,0.92)" }},
+        width: 1.25
+      }};
+    }}
+
+    function clearSelectionHighlight() {{
+      selectedFocusNodeId = null;
+      nodes.update(nodes.get().map(function (node) {{
+        return nodeVisual(node, "normal");
+      }}));
+      edges.update(edges.get().map(function (edge) {{
+        return edgeVisual(edge, "normal");
+      }}));
+    }}
+
+    function applySelectionHighlight(nodeId) {{
+      const selected = nodes.get(nodeId);
+      if (!selected || selected.hidden) {{
+        clearSelectionHighlight();
+        return;
+      }}
+      selectedFocusNodeId = nodeId;
+      const visibleIncidentEdges = edges.get().filter(function (edge) {{
+        return !edge.hidden && (edge.from === nodeId || edge.to === nodeId);
+      }});
+      const focusNodeIds = new Set([nodeId]);
+      visibleIncidentEdges.forEach(function (edge) {{
+        focusNodeIds.add(edge.from);
+        focusNodeIds.add(edge.to);
+      }});
+      nodes.update(nodes.get().map(function (node) {{
+        if (node.hidden) return nodeVisual(node, "normal");
+        if (node.id === nodeId) return nodeVisual(node, "selected");
+        return nodeVisual(node, focusNodeIds.has(node.id) ? "normal" : "muted");
+      }}));
+      const focusEdgeIds = new Set(visibleIncidentEdges.map(function (edge) {{ return edge.id; }}));
+      edges.update(edges.get().map(function (edge) {{
+        if (edge.hidden) return edgeVisual(edge, "normal");
+        return edgeVisual(edge, focusEdgeIds.has(edge.id) ? "selected" : "muted");
+      }}));
+    }}
+
+    function renderFilterGroup(containerId, values, activeSet, counts, colorFor, onChange) {{
+      const root = document.getElementById(containerId);
+      root.innerHTML = "";
+      values.forEach(function (value) {{
+        const label = document.createElement("label");
+        label.className = "filter-option";
+        label.title = value;
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = activeSet.has(value);
+        checkbox.addEventListener("change", function () {{
+          if (checkbox.checked) {{
+            activeSet.add(value);
+            label.classList.remove("is-muted");
+          }} else {{
+            activeSet.delete(value);
+            label.classList.add("is-muted");
+          }}
+          onChange();
+        }});
+        const swatch = document.createElement("span");
+        swatch.className = "filter-swatch";
+        swatch.style.background = colorFor(value);
+        const text = document.createElement("span");
+        text.className = "filter-label";
+        text.textContent = value;
+        const count = document.createElement("span");
+        count.className = "filter-count";
+        count.textContent = counts[value] || 0;
+        label.appendChild(checkbox);
+        label.appendChild(swatch);
+        label.appendChild(text);
+        label.appendChild(count);
+        if (!checkbox.checked) label.classList.add("is-muted");
+        root.appendChild(label);
+      }});
+    }}
+
+    function passesNodeFilters(node) {{
+      return activeNodeTypes.has(node.type);
+    }}
+
+    function passesEdgeFilters(edge, hiddenNodeIds) {{
+      return activeEdgeTypes.has(edge.type) &&
+        activeConfidenceLevels.has(String(edge.confidence || "")) &&
+        !hiddenNodeIds.has(edge.from) &&
+        !hiddenNodeIds.has(edge.to);
+    }}
+
+    function updateFilterStatus(visibleNodeCount, visibleEdgeCount) {{
+      document.getElementById("filter-status").textContent =
+        visibleNodeCount + " of " + nodes.length + " nodes · " +
+        visibleEdgeCount + " of " + edges.length + " relationships visible";
+    }}
+
+    function allFiltersSelected() {{
+      return activeNodeTypes.size === NODE_TYPES.length &&
+        activeEdgeTypes.size === RELATIONSHIP_TYPES.length &&
+        activeConfidenceLevels.size === CONFIDENCE_LEVELS.length;
+    }}
+
+    function updateFilterToggleButton() {{
+      const btn = document.getElementById("btn-toggle-filters");
+      if (btn) btn.textContent = allFiltersSelected() ? "Deselect all" : "Select all";
+    }}
+
+    function setAllFilters(selected) {{
+      activeNodeTypes.clear();
+      activeEdgeTypes.clear();
+      activeConfidenceLevels.clear();
+      if (selected) {{
+        NODE_TYPES.forEach(function (value) {{ activeNodeTypes.add(value); }});
+        RELATIONSHIP_TYPES.forEach(function (value) {{ activeEdgeTypes.add(value); }});
+        CONFIDENCE_LEVELS.forEach(function (value) {{ activeConfidenceLevels.add(value); }});
+      }}
+      document.querySelectorAll(".filter-option").forEach(function (label) {{
+        label.classList.toggle("is-muted", !selected);
+        const cb = label.querySelector("input");
+        if (cb) cb.checked = selected;
+      }});
+      updateFilterToggleButton();
+    }}
+
+    function applyFilters() {{
+      const hiddenNodeIds = new Set();
+      const nodeUpdates = nodes.get().map(function (node) {{
+        const hidden = !passesNodeFilters(node);
+        if (hidden) hiddenNodeIds.add(node.id);
+        return {{ id: node.id, hidden: hidden }};
+      }});
+      nodes.update(nodeUpdates);
+
+      let visibleEdgeCount = 0;
+      const edgeUpdates = edges.get().map(function (edge) {{
+        const hidden = !passesEdgeFilters(edge, hiddenNodeIds);
+        if (!hidden) visibleEdgeCount += 1;
+        return {{ id: edge.id, hidden: hidden }};
+      }});
+      edges.update(edgeUpdates);
+      updateFilterStatus(nodes.length - hiddenNodeIds.size, visibleEdgeCount);
+      if (selectedFocusNodeId) applySelectionHighlight(selectedFocusNodeId);
+      updateFilterToggleButton();
+      renderSearchResults();
+      if (minimapNetwork) minimapNetwork.fit({{ animation: false }});
+    }}
+
+    renderFilterGroup(
+      "filter-node-types",
+      NODE_TYPES,
+      activeNodeTypes,
+      nodeTypeCounts,
+      function (value) {{ return TYPE_COLORS[value] || "#64748b"; }},
+      applyFilters
+    );
+    renderFilterGroup(
+      "filter-edge-types",
+      RELATIONSHIP_TYPES,
+      activeEdgeTypes,
+      edgeTypeCounts,
+      function (value) {{ return edgeColor(value); }},
+      applyFilters
+    );
+    renderFilterGroup(
+      "filter-confidence",
+      CONFIDENCE_LEVELS,
+      activeConfidenceLevels,
+      confidenceCounts,
+      function (value) {{
+        const lo = String(value).toLowerCase();
+        if (lo === "high") return "#16a34a";
+        if (lo === "medium") return "#f59e0b";
+        if (lo === "low") return "#ef4444";
+        return "#64748b";
+      }},
+      applyFilters
+    );
+
+    document.getElementById("btn-toggle-filters").addEventListener("click", function () {{
+      setAllFilters(!allFiltersSelected());
+      applyFilters();
+    }});
+
+    document.getElementById("btn-reset-filters").addEventListener("click", function () {{
+      setAllFilters(true);
+      applyFilters();
+      network.fit({{ animation: true }});
+    }});
+
+    function edgeColor(value) {{
+      const raw = String(value || "").toLowerCase();
+      const colors = {{
+        uses: "#16a34a",
+        supports: "#ea580c",
+        contributesto: "#0284c7",
+        measures: "#0d9488",
+        tracks: "#14b8a6",
+        dependson: "#6366f1",
+        produce: "#059669",
+        consumes: "#a855f7",
+        governedby: "#db2777",
+        ownedby: "#ca8a04",
+        alignswith: "#f97316",
+        alignwith: "#f97316",
+        relatedto: "#64748b",
+        impacts: "#dc2626",
+        derivedfrom: "#78716c",
+        exposes: "#7c3aed",
+        monitors: "#0891b2",
+        identifies: "#475569"
+      }};
+      return colors[raw] || "#94a3b8";
+    }}
+
+    const searchInput = document.getElementById("node-search");
+    const searchResults = document.getElementById("search-results");
+    let activeSearchIndex = -1;
+    let currentSearchMatches = [];
+
+    function searchableNodeText(node) {{
+      return [node.id, node.type, node.ref, node.displayName].join(" ").toLowerCase();
+    }}
+
+    function visibleSearchMatches() {{
+      const q = searchInput.value.trim().toLowerCase();
+      if (!q) return [];
+      return nodes.get().filter(function (node) {{
+        return !node.hidden && searchableNodeText(node).indexOf(q) !== -1;
+      }}).slice(0, 20);
+    }}
+
+    function focusNode(nodeId) {{
+      const node = nodes.get(nodeId);
+      if (!node || node.hidden) return;
+      network.selectNodes([nodeId]);
+      applySelectionHighlight(nodeId);
+      network.focus(nodeId, {{ scale: 1.35, animation: true }});
+      showNodePanel(node);
+    }}
+
+    function renderSearchResults(nextActiveIndex) {{
+      if (!searchInput) return;
+      currentSearchMatches = visibleSearchMatches();
+      if (currentSearchMatches.length) {{
+        activeSearchIndex = typeof nextActiveIndex === "number"
+          ? Math.max(0, Math.min(nextActiveIndex, currentSearchMatches.length - 1))
+          : Math.max(0, activeSearchIndex);
+      }} else {{
+        activeSearchIndex = -1;
+      }}
+      searchResults.innerHTML = "";
+      if (!searchInput.value.trim()) {{
+        searchResults.style.display = "none";
+        return;
+      }}
+      if (!currentSearchMatches.length) {{
+        const empty = document.createElement("div");
+        empty.className = "search-result";
+        empty.innerHTML = '<span class="search-result-dot" style="background:#cbd5e1"></span><div><strong>No visible nodes found</strong><span>Try changing filters or using another term.</span></div>';
+        searchResults.appendChild(empty);
+        searchResults.style.display = "block";
+        return;
+      }}
+      currentSearchMatches.forEach(function (node, index) {{
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "search-result" + (index === activeSearchIndex ? " is-active" : "");
+        item.setAttribute("role", "option");
+        item.innerHTML =
+          '<span class="search-result-dot" style="background:' + (TYPE_COLORS[node.type] || "#64748b") + '"></span>' +
+          "<div><strong>" + escHtml(node.id) + "</strong><span>" + escHtml(node.type + " · " + (node.displayName || node.ref || "")) + "</span></div>";
+        item.addEventListener("click", function () {{
+          focusNode(node.id);
+          searchInput.value = "";
+          searchResults.style.display = "none";
+        }});
+        searchResults.appendChild(item);
+      }});
+      searchResults.style.display = "block";
+    }}
+
+    searchInput.addEventListener("input", function () {{
+      activeSearchIndex = -1;
+      renderSearchResults();
+    }});
+    searchInput.addEventListener("keydown", function (event) {{
+      if (!currentSearchMatches.length && event.key !== "Escape") return;
+      if (event.key === "ArrowDown") {{
+        event.preventDefault();
+        activeSearchIndex = Math.min(activeSearchIndex + 1, currentSearchMatches.length - 1);
+        renderSearchResults(activeSearchIndex);
+      }} else if (event.key === "ArrowUp") {{
+        event.preventDefault();
+        activeSearchIndex = Math.max(activeSearchIndex - 1, 0);
+        renderSearchResults(activeSearchIndex);
+      }} else if (event.key === "Enter") {{
+        event.preventDefault();
+        if (currentSearchMatches[activeSearchIndex]) {{
+          focusNode(currentSearchMatches[activeSearchIndex].id);
+          searchInput.value = "";
+          searchResults.style.display = "none";
+        }}
+      }} else if (event.key === "Escape") {{
+        searchInput.value = "";
+        searchResults.style.display = "none";
+      }}
+    }});
+
+    document.addEventListener("click", function (event) {{
+      if (!searchResults.contains(event.target) && event.target !== searchInput) {{
+        searchResults.style.display = "none";
+      }}
+    }});
+
+    applyFilters();
 
     document.addEventListener("fullscreenchange", function () {{
       window.requestAnimationFrame(function () {{
@@ -1115,7 +1783,7 @@ def build_html(graph: dict) -> str:
       network.fit({{ animation: true }});
       if (minimapNetwork) minimapNetwork.fit({{ animation: false }});
     }});
-    document.querySelector(".topbar-actions .icon-btn:nth-child(2)").addEventListener("click", function () {{
+    document.getElementById("btn-fit-top").addEventListener("click", function () {{
       network.fit({{ animation: true }});
     }});
 
@@ -1210,6 +1878,7 @@ def build_html(graph: dict) -> str:
     network.on("selectNode", function (params) {{
       if (!params.nodes.length) return;
       const node = nodes.get(params.nodes[0]);
+      applySelectionHighlight(node.id);
       showNodePanel(node);
     }});
 
@@ -1221,6 +1890,7 @@ def build_html(graph: dict) -> str:
 
     network.on("deselectNode", function () {{
       if (network.getSelectedNodes().length === 0 && network.getSelectedEdges().length === 0) {{
+        clearSelectionHighlight();
         document.getElementById("node-placeholder").style.display = "";
         document.getElementById("node-detail").style.display = "none";
       }}
@@ -1228,6 +1898,7 @@ def build_html(graph: dict) -> str:
 
     network.on("deselectEdge", function () {{
       if (network.getSelectedEdges().length === 0 && network.getSelectedNodes().length === 0) {{
+        clearSelectionHighlight();
         document.getElementById("edge-placeholder").style.display = "";
         document.getElementById("edge-detail").style.display = "none";
       }}
