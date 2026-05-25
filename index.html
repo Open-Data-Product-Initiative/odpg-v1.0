@@ -571,6 +571,7 @@ Development of the specification is under the umbrella of the Linux Foundation.<
 Use /schema/odpg.yaml or /schema/odpg.json to validate ODPG graph files.
 Use /graph/objects.jsonl for retrieval, relationship classification, traversal planning, graph reasoning, validation hints, and lightweight AI-agent tool calls.
 Use /scripts/odpg_validate.py for graph validation.
+Use /scripts/odpg_convert.py to convert external graph formats into ODPG YAML.
 Use /scripts/odpg_summary.py for graph summaries.
 Use /scripts/odpg_traverse.py for graph traversal.
 Use /scripts/odpg_analyze.py for governance and strategic analysis.
@@ -606,7 +607,7 @@ Use ODPV when stable vocabulary terms, semantic mappings, or relationship names 
   <span class="na">nodes</span><span class="pi">:</span> <span class="pi">[]</span>
   <span class="na">edges</span><span class="pi">:</span> <span class="pi">[]</span>
 </code></pre></div>
-<p>ODPG is published in several forms for different users and tools. This specification provides the human-readable documentation, while the schema, graph object records, and Python scripts provide machine-readable resources for validation, graph reasoning, AI retrieval, traversal planning, strategic analysis, automation, and visualization. Use <code>odpg.yaml</code> or <code>odpg.json</code> to validate graph files, <code>objects.jsonl</code> for lightweight relationship classification and graph retrieval, the ODPG Python scripts for command-line graph validation and reasoning tasks, and the Graph Explorer generator when creating a visual inspection interface for ODPG YAML.</p>
+<p>ODPG is published in several forms for different users and tools. This specification provides the human-readable documentation, while the schema, graph object records, and Python scripts provide machine-readable resources for validation, conversion, graph reasoning, AI retrieval, traversal planning, strategic analysis, automation, and visualization. Use <code>odpg.yaml</code> or <code>odpg.json</code> to validate graph files, <code>objects.jsonl</code> for lightweight relationship classification and graph retrieval, the ODPG Python scripts for command-line graph conversion, validation, and reasoning tasks, and the Graph Explorer generator when creating a visual inspection interface for ODPG YAML.</p>
 
 <table><thead>
 <tr>
@@ -639,6 +640,11 @@ Use ODPV when stable vocabulary terms, semantic mappings, or relationship names 
 <td><a href="scripts/odpg_validate.py"><code>odpg_validate.py</code></a></td>
 <td>Python</td>
 <td>Validates graph structure, node integrity, edge integrity, confidence values, and core ODPG semantics</td>
+</tr>
+<tr>
+<td><a href="scripts/odpg_convert.py"><code>odpg_convert.py</code></a></td>
+<td>Python</td>
+<td>Converts external graph formats such as JSON-LD, GraphML, GraphSON, RDF, OpenCypher, GQL, and Gremlin into ODPG YAML</td>
 </tr>
 <tr>
 <td><a href="scripts/odpg_summary.py"><code>odpg_summary.py</code></a></td>
@@ -684,6 +690,11 @@ Use ODPV when stable vocabulary terms, semantic mappings, or relationship names 
 <td>Validate graph structure, required fields, node integrity, edge integrity, confidence values, and core ODPG semantics</td>
 </tr>
 <tr>
+<td><code>odpg_convert.py</code></td>
+<td>Graph Conversion Toolkit</td>
+<td>Convert JSON-LD, GraphML, GraphSON, RDF, OpenCypher, GQL, and Gremlin graph inputs into ODPG YAML</td>
+</tr>
+<tr>
 <td><code>odpg_summary.py</code></td>
 <td>Graph Validation Toolkit / AI Agent Toolkit</td>
 <td>Produce a JSON summary of metadata, node counts, edge counts, node types, edge types, and confidence values</td>
@@ -707,12 +718,13 @@ Use ODPV when stable vocabulary terms, semantic mappings, or relationship names 
 
 <p>Example usage:</p>
 <div class="highlight"><pre class="highlight plaintext"><code>python source/scripts/odpg_validate.py -i "/path/to/graph.yml"
+python source/scripts/odpg_convert.py -i "/path/to/source.graphml" -o "/path/to/graph.yml"
 python source/scripts/odpg_summary.py -i "/path/to/graph.yml"
 python source/scripts/odpg_traverse.py -i "/path/to/graph.yml" --start "DP-001" --depth 2
 python source/scripts/odpg_analyze.py -i "/path/to/graph.yml"
 python source/scripts/odpg_agent_context.py -i "/path/to/graph.yml" --node "AGENT-001" --depth 2
 </code></pre></div><h3 id='testing-the-python-toolkit'>Testing the Python Toolkit</h3>
-<p>The repository includes pytest coverage for the shared toolkit logic used by all five scripts. The tests verify graph validation, invalid edge handling, graph summaries, traversal paths, strategic and governance analysis, agent-context extraction, and JSON output writing.</p>
+<p>The repository includes pytest coverage for the shared toolkit logic used by the validation and reasoning scripts. The tests verify graph validation, invalid edge handling, graph summaries, traversal paths, strategic and governance analysis, agent-context extraction, and JSON output writing.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>python -m pip install -r requirements-dev.txt
 python -m pytest tests/test_odpg_toolkit.py
 </code></pre></div><!-- AI_AGENT_GUIDANCE:
