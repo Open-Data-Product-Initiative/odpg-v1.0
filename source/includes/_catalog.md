@@ -219,6 +219,7 @@ python generate_graph_explorer.py -i "/path/to/graph.yml" -o "/path/to/explorer.
 | Script | Purpose |
 |---|---|
 | [`odpg_validate.py`](https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_validate.py) | Validate graph structure, node integrity, edge integrity, confidence values, and core ODPG semantics |
+| [`odpg_convert.py`](https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_convert.py) | Convert external graph formats such as JSON-LD, GraphML, GraphSON, RDF, OpenCypher, GQL, and Gremlin into ODPG YAML |
 | [`odpg_summary.py`](https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_summary.py) | Summarize graph metadata, node counts, edge counts, node types, edge types, and confidence values |
 | [`odpg_traverse.py`](https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_traverse.py) | Discover relationship paths from a node |
 | [`odpg_analyze.py`](https://github.com/Open-Data-Product-Initiative/odpg-v1.0/blob/main/scripts/odpg_analyze.py) | Run strategic and governance checks |
