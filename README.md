@@ -135,7 +135,7 @@ Generate a standalone graph explorer:
 python source/scripts/generate_graph_explorer.py -i graph.yml -o graph-explorer.html
 ```
 
-[![ODPG Graph Explorer example](source/images/graph_example_1.png)](source/graph/examples/graph-explorer.html)
+[![ODPG Graph Explorer example](source/images/graph_example_1.png)](https://opendataproducts.org/odpg-v1.0/graph/examples/graph-explorer.html)
 
 ## Minimal Graph Example
 
